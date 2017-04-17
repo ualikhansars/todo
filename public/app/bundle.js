@@ -9643,12 +9643,65 @@ var Header = exports.Header = function (_React$Component) {
     }
 
     _createClass(Header, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'p',
-                null,
-                'Header'
+                "nav",
+                { className: "navbar navbar-tes navbar-toggleable-md navbar-light bg-faded" },
+                _react2.default.createElement(
+                    "button",
+                    { className: "navbar-toggler navbar-toggler-right", type: "button", "data-toggle": "collapse", "data-target": "#navbarNav", "aria-controls": "navbarNav", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+                    _react2.default.createElement("span", { className: "navbar-toggler-icon" })
+                ),
+                _react2.default.createElement(
+                    "a",
+                    { className: "navbar-brand", href: "/" },
+                    "ToDo"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "collapse navbar-collapse", id: "navbarNav" },
+                    _react2.default.createElement(
+                        "ul",
+                        { className: "navbar-nav" },
+                        _react2.default.createElement(
+                            "li",
+                            { className: "nav-item" },
+                            _react2.default.createElement(
+                                "a",
+                                { className: "nav-link", href: "/cards" },
+                                "Get Started",
+                                _react2.default.createElement(
+                                    "span",
+                                    { className: "sr-only" },
+                                    "(current)"
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "li",
+                            { className: "nav-item" },
+                            _react2.default.createElement(
+                                "a",
+                                { className: "nav-link", href: "/forum" },
+                                "Get Mobile App"
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "ul",
+                        { className: "navbar-nav ml-auto" },
+                        _react2.default.createElement(
+                            "li",
+                            { className: "nav-item" },
+                            _react2.default.createElement(
+                                "a",
+                                { className: "nav-link", href: "/users/signup" },
+                                "Sign Up"
+                            )
+                        )
+                    )
+                )
             );
         }
     }]);
@@ -9746,7 +9799,7 @@ var Todo = exports.Todo = function (_React$Component) {
             return _react2.default.createElement(
                 'p',
                 null,
-                'Todo'
+                this.props.title
             );
         }
     }]);
@@ -9814,41 +9867,50 @@ var App = function (_React$Component) {
                 { className: 'page-wrapper' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'row' },
+                    { className: 'container' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'col-md-12' },
-                        _react2.default.createElement(_Header.Header, null)
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'row' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-5 col-sm-12' },
-                        _react2.default.createElement(_Todo.Todo, null)
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-4 col-sm-12' },
-                        _react2.default.createElement(_Dynamic.Dynamic, null)
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'col-md-3 col-sm-12' },
+                        { className: 'row' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'row' },
+                            { className: 'col-md-12' },
+                            _react2.default.createElement(_Header.Header, null)
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-5 col-sm-12' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-md-12' },
-                                _react2.default.createElement(_Sidebar.Sidebar, null)
-                            ),
+                                { className: 'todos' },
+                                _react2.default.createElement(_Todo.Todo, { title: "Buy Juice" }),
+                                _react2.default.createElement(_Todo.Todo, { title: "Create website" })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-4 col-sm-12' },
+                            _react2.default.createElement(_Dynamic.Dynamic, null)
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-md-3 col-sm-12' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-md-12' },
-                                _react2.default.createElement(_Calendar.Calendar, null)
+                                { className: 'row' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-md-12' },
+                                    _react2.default.createElement(_Sidebar.Sidebar, null)
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'col-md-12' },
+                                    _react2.default.createElement(_Calendar.Calendar, null)
+                                )
                             )
                         )
                     )

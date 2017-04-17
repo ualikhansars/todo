@@ -10,7 +10,8 @@ import {Dynamic} from './components/Dynamic';
 class App extends React.Component {
     render() {
         return (
-           <div className="page-wrapper"> 
+           <div className="page-wrapper">
+               <div className="container">
                <div className="row">
                    <div className="col-md-12">
                         <Header/>
@@ -18,7 +19,10 @@ class App extends React.Component {
                </div>
                <div className="row">
                    <div className="col-md-5 col-sm-12">
-                        <Todo/>
+                       <div className="todos">
+                            <Todo title={"Buy Juice"}/>
+                            <Todo title={"Create website"}/>
+                       </div>
                    </div>
                    <div className="col-md-4 col-sm-12">
                         <Dynamic/>
@@ -33,7 +37,8 @@ class App extends React.Component {
                            </div>
                        </div>
                    </div>
-               </div>   
+               </div> 
+               </div>  
             </div>
         );
     }
