@@ -7,7 +7,7 @@ export class Todo extends React.Component {
 
     render() {
         return(
-            <p>{this.props.title}</p>
+            <div className="todo">{this.props.title}</div>
         );
     }
 }

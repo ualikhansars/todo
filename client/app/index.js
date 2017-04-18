@@ -8,6 +8,16 @@ import {Calendar} from './components/Calendar';
 import {Dynamic} from './components/Dynamic';
 
 class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            showSlots: false,
+            showSettings: false,
+        }
+    }
+    onShow() {
+        alert('Show Component');
+    }
     render() {
         return (
            <div className="page-wrapper">
@@ -30,7 +40,7 @@ class App extends React.Component {
                    <div className="col-md-3 col-sm-12">
                        <div className="row">
                            <div className="col-md-12">
-                                <Sidebar/>
+                                <Sidebar show={this.onShow}/>
                            </div>
                            <div className="col-md-12">
                                 <Calendar/>

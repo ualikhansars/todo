@@ -3,6 +3,34 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+div.todos {
+  background-color: chocolate;
+  color: #fff;
+ 
+}
+
+.todo {
+   border-bottom: 1px solid #fff;
+   min-height: 40px;
+   text-align: center;
+}
+
+.todo:hover {
+  background-color: red;
+}
+
+div.sidebar {
+  text-align: center;
+}
+
+div.menu-item {
+  border-bottom: 1px solid #fff;
+  background-color: chocolate;
+  min-height: 40px;
+  text-align: center;
+  color: #fff;
+}
+
+div.menu-item:hover {
+  background-color: red;
 }
