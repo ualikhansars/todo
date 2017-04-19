@@ -15,8 +15,10 @@ class App extends React.Component {
             showSettings: false,
         }
     }
-    onShow() {
-        alert('Show Component');
+    onShow(){
+        this.setState({
+            showSlots: !this.state.showSlots
+        });
     }
     render() {
         return (
@@ -35,12 +37,12 @@ class App extends React.Component {
                        </div>
                    </div>
                    <div className="col-md-4 col-sm-12">
-                        <Dynamic/>
+                        <Dynamic showSlots={this.state.showSlots}/>
                    </div>
                    <div className="col-md-3 col-sm-12">
                        <div className="row">
                            <div className="col-md-12">
-                                <Sidebar show={this.onShow}/>
+                                <Sidebar show={this.onShow.bind(this)}/>
                            </div>
                            <div className="col-md-12">
                                 <Calendar/>
