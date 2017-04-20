@@ -3,7 +3,14 @@ import React from 'react';
 export class Settings extends React.Component {
     render() {
         return(
-            <p>Settings</p>
+           <div className="row">
+               <div className="col-md-12">
+                    <p>Colors</p>
+               </div>
+                <div className="col-md-12">
+                   <p>Change Profile Picture</p>
+               </div>
+           </div>
         )
     }
 }

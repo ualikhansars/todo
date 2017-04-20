@@ -13,16 +13,28 @@ class App extends React.Component {
         this.state = {
             showSlots: false,
             showSettings: false,
+            showControllers: false,
         }
     }
     onShowSlots(){
         this.setState({
-            showSlots: !this.state.showSlots
+            showSlots: !this.state.showSlots,
+            showSettings: false,
+            showControllers: false,
         });
     }
     onShowSettings() {
         this.setState({
-            showSettings: !this.state.showSettings
+            showSettings: !this.state.showSettings,
+            showSlots: false,
+            showControllers: false,
+        });
+    }
+    onShowSlotsAndControllers() {
+        this.setState({
+            showControllers: true,
+            showSlots: false,
+            showSettings: false,
         });
     }
     render() {
@@ -36,13 +48,10 @@ class App extends React.Component {
                </div>
                <div className="row">
                    <div className="col-md-5 col-sm-12">
-                       <div className="todos">
-                            <Todo title={"Buy Juice"}/>
-                            <Todo title={"Create website"}/>
-                       </div>
+                       <Todo showControllers={this.onShowSlotsAndControllers.bind(this)}/>
                    </div>
                    <div className="col-md-4 col-sm-12">
-                        <Dynamic showSlots={this.state.showSlots} showSettings={this.state.showSettings}/>
+                        <Dynamic showSlots={this.state.showSlots} showSettings={this.state.showSettings} showControllers={this.state.showControllers}/>
                    </div>
                    <div className="col-md-3 col-sm-12">
                        <div className="row">
