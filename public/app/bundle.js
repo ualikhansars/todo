@@ -9599,20 +9599,42 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Dynamic.__proto__ || Object.getPrototypeOf(Dynamic)).call(this));
 
         _this.state = {
-            showSlots: props.showSlots
+            showSlots: props.showSlots,
+            showSettings: props.showSettings
         };
         return _this;
     }
 
     _createClass(Dynamic, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                showSlots: nextProps,
+                showSettings: nextProps
+            });
+        }
+    }, {
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return true;
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var isShow = this.state.showSlots;
-            console.log(isShow);
-            if (isShow) {
+            var isShowSlots = this.state.showSlots;
+            var isShowSettings = this.state.showSettings;
+            console.log(isShowSettings);
+            if (isShowSlots.showSlots) {
                 return _react2.default.createElement(_Slots.Slots, null);
-            } else {
+            }
+            if (isShowSettings) {
                 return _react2.default.createElement(_Settings.Settings, null);
+            } else {
+                return _react2.default.createElement(
+                    'p',
+                    null,
+                    'Nothing to show'
+                );
             }
         }
     }]);
@@ -9784,7 +9806,7 @@ var Sidebar = exports.Sidebar = function (_React$Component) {
                         { className: "col-md-12" },
                         _react2.default.createElement(
                             "p",
-                            { onClick: this.props.show },
+                            { onClick: this.props.showSlots },
                             "Slots"
                         )
                     )
@@ -9797,7 +9819,7 @@ var Sidebar = exports.Sidebar = function (_React$Component) {
                         { className: "col-md-12" },
                         _react2.default.createElement(
                             "p",
-                            null,
+                            { onClick: this.props.showSettings },
                             "Settings"
                         )
                     )
@@ -10015,10 +10037,17 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
-        key: 'onShow',
-        value: function onShow() {
+        key: 'onShowSlots',
+        value: function onShowSlots() {
             this.setState({
                 showSlots: !this.state.showSlots
+            });
+        }
+    }, {
+        key: 'onShowSettings',
+        value: function onShowSettings() {
+            this.setState({
+                showSettings: !this.state.showSettings
             });
         }
     }, {
@@ -10055,7 +10084,7 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-4 col-sm-12' },
-                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots })
+                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, showSettings: this.state.showSettings })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -10066,7 +10095,7 @@ var App = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-md-12' },
-                                    _react2.default.createElement(_Sidebar.Sidebar, { show: this.onShow.bind(this) })
+                                    _react2.default.createElement(_Sidebar.Sidebar, { showSlots: this.onShowSlots.bind(this), showSettings: this.onShowSettings.bind(this) })
                                 ),
                                 _react2.default.createElement(
                                     'div',

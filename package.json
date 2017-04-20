@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "npm run build",
+    "build": "node ./bin/www --inline --hot"
   },
   "dependencies": {
     "body-parser": "~1.16.0",

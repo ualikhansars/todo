@@ -8,21 +8,38 @@ export class Dynamic extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            showSlots: props.showSlots
+            showSlots: props.showSlots,
+            showSettings: props.showSettings,
         };
     }
+    
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            showSlots: nextProps,
+            showSettings: nextProps
+        });
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
     render() {
-         const isShow = this.state.showSlots;
-         console.log(isShow);
-         if(isShow) {
+         let isShowSlots = this.state.showSlots;
+         let isShowSettings = this.state.showSettings;
+         console.log(isShowSettings);
+         if(isShowSlots.showSlots) {
             return (
                 <Slots/>
             );
-         } else {
-             return (
+         } 
+         if(isShowSettings) {
+             return(
                  <Settings/>
              );
-         }    
-         
+         }
+         else {
+             return (
+                 <p>Nothing to show</p>
+             );
+         }          
     }
 }

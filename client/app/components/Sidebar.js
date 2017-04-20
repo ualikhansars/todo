@@ -11,12 +11,12 @@ export class Sidebar extends React.Component {
                 </div>
                 <div className="row menu-item">
                     <div className="col-md-12">
-                        <p onClick={this.props.show}>Slots</p>
+                        <p onClick={this.props.showSlots}>Slots</p>
                     </div>
                 </div>
                 <div className="row menu-item">
                     <div className="col-md-12">
-                        <p>Settings</p>
+                        <p onClick={this.props.showSettings}>Settings</p>
                     </div>
                 </div>
             </div>
