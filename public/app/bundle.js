@@ -9628,7 +9628,6 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
             var isShowSlots = this.state.showSlots;
             var isShowSettings = this.state.showSettings;
             var isShowSlotsAndControllers = this.state.showSlotsAndControllers;
-            console.log(isShowSettings);
             if (isShowSlots.showSlots) {
                 return _react2.default.createElement(_Slots.Slots, null);
             }
@@ -9813,26 +9812,26 @@ var Sidebar = exports.Sidebar = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    { className: "row menu-item" },
+                    { className: "row menu-item", onMouseEnter: this.props.showSlots },
                     _react2.default.createElement(
                         "div",
                         { className: "col-md-12" },
                         _react2.default.createElement(
                             "p",
-                            { onClick: this.props.showSlots },
+                            null,
                             "Slots"
                         )
                     )
                 ),
                 _react2.default.createElement(
                     "div",
-                    { className: "row menu-item" },
+                    { className: "row menu-item", onMouseEnter: this.props.showSettings },
                     _react2.default.createElement(
                         "div",
                         { className: "col-md-12" },
                         _react2.default.createElement(
                             "p",
-                            { onClick: this.props.showSettings },
+                            null,
                             "Settings"
                         )
                     )
@@ -9864,6 +9863,8 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -9876,22 +9877,33 @@ var Todo = exports.Todo = function (_React$Component) {
     function Todo(props) {
         _classCallCheck(this, Todo);
 
-        return _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
+
+        _this.state = {
+            todos: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        };
+        return _this;
     }
 
     _createClass(Todo, [{
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "div",
-                { className: "container" },
+                { className: "container todos" },
                 _react2.default.createElement(
                     "div",
                     { className: "row" },
                     _react2.default.createElement(
                         "div",
                         { className: "col-md-4 md-offset-4" },
-                        "Todos"
+                        _react2.default.createElement(
+                            "h2",
+                            null,
+                            "Todos"
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -9900,11 +9912,15 @@ var Todo = exports.Todo = function (_React$Component) {
                     _react2.default.createElement(
                         "ul",
                         null,
-                        _react2.default.createElement(
-                            "li",
-                            { className: "todo", onMouseMove: this.props.showControllers },
-                            "Data Structure and Algorithms"
-                        )
+                        this.state.todos.map(function (todo, i) {
+                            var _React$createElement;
+
+                            return _react2.default.createElement(
+                                "li",
+                                (_React$createElement = { className: "todo", key: i }, _defineProperty(_React$createElement, "className", "todo"), _defineProperty(_React$createElement, "onMouseMove", _this2.props.showControllers), _React$createElement),
+                                todo
+                            );
+                        })
                     )
                 )
             );
@@ -9964,10 +9980,10 @@ var Settings = exports.Settings = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "row" },
+                { className: "row dynamic" },
                 _react2.default.createElement(
                     "div",
-                    { className: "col-md-12" },
+                    { className: "col-md-12 dynamic-item" },
                     _react2.default.createElement(
                         "p",
                         null,
@@ -9976,7 +9992,7 @@ var Settings = exports.Settings = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    { className: "col-md-12" },
+                    { className: "col-md-12 dynamic-item" },
                     _react2.default.createElement(
                         "p",
                         null,
@@ -10030,10 +10046,10 @@ var Slots = exports.Slots = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "row" },
+                { className: "row dynamic" },
                 _react2.default.createElement(
                     "div",
-                    { className: "col-md-12" },
+                    { className: "col-md-12 dynamic-item" },
                     _react2.default.createElement(
                         "p",
                         null,
@@ -10042,7 +10058,7 @@ var Slots = exports.Slots = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    { className: "col-md-12" },
+                    { className: "col-md-12 dynamic-item" },
                     _react2.default.createElement(
                         "p",
                         null,
@@ -10174,28 +10190,34 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'onShowSlots',
         value: function onShowSlots() {
+            this.disableOtherEvents();
             this.setState({
-                showSlots: !this.state.showSlots,
-                showSettings: false,
-                showControllers: false
+                showSlots: !this.state.showSlots
             });
         }
     }, {
         key: 'onShowSettings',
         value: function onShowSettings() {
+            this.disableOtherEvents();
             this.setState({
-                showSettings: !this.state.showSettings,
-                showSlots: false,
-                showControllers: false
+                showSettings: !this.state.showSettings
             });
         }
     }, {
         key: 'onShowSlotsAndControllers',
         value: function onShowSlotsAndControllers() {
+            this.disableOtherEvents();
             this.setState({
-                showControllers: true,
+                showControllers: true
+            });
+        }
+    }, {
+        key: 'disableOtherEvents',
+        value: function disableOtherEvents() {
+            this.setState({
                 showSlots: false,
-                showSettings: false
+                showSettings: false,
+                showControllers: false
             });
         }
     }, {
@@ -10221,12 +10243,12 @@ var App = function (_React$Component) {
                         { className: 'row' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'col-md-5 col-sm-12' },
+                            { className: 'col-md-4 col-sm-12' },
                             _react2.default.createElement(_Todo.Todo, { showControllers: this.onShowSlotsAndControllers.bind(this) })
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'col-md-4 col-sm-12' },
+                            { className: 'col-md-5 col-sm-12' },
                             _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, showSettings: this.state.showSettings, showControllers: this.state.showControllers })
                         ),
                         _react2.default.createElement(

@@ -29,7 +29,6 @@ export class Dynamic extends React.Component {
          let isShowSlots = this.state.showSlots;
          let isShowSettings = this.state.showSettings;
          let isShowSlotsAndControllers = this.state.showSlotsAndControllers;
-         console.log(isShowSettings);
          if(isShowSlots.showSlots) {
             return (
                 <Slots/>

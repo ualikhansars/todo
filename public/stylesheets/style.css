@@ -34,3 +34,34 @@ div.menu-item {
 div.menu-item:hover {
   background-color: red;
 }
+
+/* Style todo */
+div.todos {
+  text-align: center;
+}
+
+div.todos li.todo {
+  list-style-type: none;
+  background-color: #ccc;
+  min-width: 160px;
+  text-align: center;
+}
+
+div.todos li.todo:hover {
+  border-bottom: 1px solid darkolivegreen;
+}
+
+/* Dynamic Content */
+div.dynamic {
+  max-width: 400px;
+  margin-left: 20px;
+}
+div.dynamic div.dynamic-item {
+  background-color: chocolate;
+  text-align: center;
+  color: red;
+}
+
+div.dynamic div.dynamic-item:hover > p {
+    border-bottom: 1px solid red;
+}

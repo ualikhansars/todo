@@ -9,14 +9,14 @@ export class Sidebar extends React.Component {
                         <p>Profile</p>
                     </div>
                 </div>
-                <div className="row menu-item">
+                <div className="row menu-item" onMouseEnter={this.props.showSlots}>
                     <div className="col-md-12">
-                        <p onClick={this.props.showSlots}>Slots</p>
+                        <p>Slots</p>
                     </div>
                 </div>
-                <div className="row menu-item">
+                <div className="row menu-item" onMouseEnter={this.props.showSettings}>
                     <div className="col-md-12">
-                        <p onClick={this.props.showSettings}>Settings</p>
+                        <p>Settings</p>
                     </div>
                 </div>
             </div>
