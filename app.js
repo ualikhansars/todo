@@ -5,12 +5,15 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const webpack = require('webpack');
+const mongoose = require('mongoose');
 const config = require('./webpack.config.js');
 const hbs = require('express-handlebars');
 let compiler = webpack(config);
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+
+mongoose.connect('localhost:27017/todo');
 
 const app = express();
 
