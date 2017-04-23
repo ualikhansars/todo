@@ -12,6 +12,7 @@ let compiler = webpack(config);
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const todo = require('./routes/todo');
 
 mongoose.connect('localhost:27017/todo');
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/todo', todo);
 
 // run webpack
 compiler.run(function(err, stats) {
