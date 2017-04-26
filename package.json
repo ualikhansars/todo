@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npm run build",
-    "build": "node ./bin/www --inline --hot"
+    "build": "node ./bin/www --inline --hot",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
@@ -14,9 +15,12 @@
     "express-handlebars": "^3.0.0",
     "express-validator": "^3.2.0",
     "hbs": "~4.0.1",
+    "mocha": "^3.3.0",
     "mongoose": "^4.9.5",
     "morgan": "~1.7.0",
     "react-validation": "^2.10.9",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
     "serve-favicon": "~2.3.2"
   },
   "devDependencies": {

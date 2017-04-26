@@ -8,13 +8,15 @@ const webpack = require('webpack');
 const mongoose = require('mongoose');
 const config = require('./webpack.config.js');
 const hbs = require('express-handlebars');
+const validator = require('express-validator');
 let compiler = webpack(config);
+
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const todo = require('./routes/todo');
 
-mongoose.connect('localhost:27017/todo');
+mongoose.connect('mongodb://localhost/todo');
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.set('view engine', '.hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

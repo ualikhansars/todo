@@ -10056,6 +10056,13 @@ var Slots = exports.Slots = function (_React$Component) {
             });
         }
     }, {
+        key: 'onAddFormToDOM',
+        value: function onAddFormToDOM() {
+            document.addEventListener("DOMContentLoaded", function (event) {
+                this.onShowSlotForm();
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var isShowSlotForm = this.state.showSlotForm;
@@ -10076,7 +10083,7 @@ var Slots = exports.Slots = function (_React$Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement(_SlotsForm.SlotsForm, null),
+                    _react2.default.createElement(_SlotsForm.SlotsForm, { showSlotsForm: this.onAddFormToDOM.bind(this) }),
                     _react2.default.createElement(
                         'div',
                         { className: 'row' },
@@ -10190,7 +10197,7 @@ var SlotsForm = exports.SlotsForm = function (_React$Component) {
                 { className: "slots-form" },
                 _react2.default.createElement(
                     "form",
-                    { action: "/todo/saveTodo", method: "post" },
+                    { action: "/todo", id: "create_todo", method: "post" },
                     _react2.default.createElement(
                         "div",
                         { className: "form-group row" },
@@ -10258,8 +10265,12 @@ var SlotsForm = exports.SlotsForm = function (_React$Component) {
                         { className: "row" },
                         _react2.default.createElement(
                             "div",
-                            { type: "submit", className: "btn btn-success" },
-                            "Create"
+                            { className: "col-md-6 offset-md-3" },
+                            _react2.default.createElement(
+                                "button",
+                                { onClick: this.props.showSlotsForm, type: "submit", className: "btn btn-success" },
+                                "Create"
+                            )
                         )
                     )
                 )

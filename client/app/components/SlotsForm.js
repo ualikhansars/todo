@@ -4,7 +4,7 @@ export class SlotsForm extends React.Component {
     render() {
         return (
             <div className="slots-form">
-                <form action="/todo/saveTodo" method="post">
+                <form action="/todo" id="create_todo" method="post">
                     <div className="form-group row">
                         <label htmlFor="formGroupExampleInput" className="col-md-12">Title</label>
                         <input type="text" className="form-control col-md-12" id="todo_title" name="title" placeholder="Study" />
@@ -32,7 +32,9 @@ export class SlotsForm extends React.Component {
                         <input type="number" className="form-control col-sm-5" id="finish_time_minutes" name="finish_time_minutes" placeholder="Minutes" />
                     </div>
                     <div className="row">
-                        <div type="submit" className="btn btn-success">Create</div>
+                        <div className="col-md-6 offset-md-3">
+                            <button onClick={this.props.showSlotsForm} type="submit" className="btn btn-success">Create</button>
+                        </div>
                     </div>
                 </form>
              </div>   

@@ -13,6 +13,12 @@ export class Slots extends React.Component {
             showSlotForm: !this.state.showSlotForm,
         });
     }
+
+    onAddFormToDOM() {
+        document.addEventListener("DOMContentLoaded", function(event) { 
+        this.onShowSlotForm();
+        });
+    }
     render() {
         let isShowSlotForm = this.state.showSlotForm;
         if(isShowSlotForm) {
@@ -23,7 +29,7 @@ export class Slots extends React.Component {
                     <button onClick={this.onShowSlotForm.bind(this)} className="btn btn-success">Create new</button>
                 </div>
                 </div>
-                <SlotsForm/>
+                <SlotsForm showSlotsForm={this.onAddFormToDOM.bind(this)}/>
                 <div className="row">
                     <div className="col-md-12 dynamic-item">
                         <p>Database Design</p>
