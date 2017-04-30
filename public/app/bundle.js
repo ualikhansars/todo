@@ -10055,12 +10055,26 @@ var Slots = exports.Slots = function (_React$Component) {
                 showSlotForm: !this.state.showSlotForm
             });
         }
+
+        // to bind form to the DOM
+
     }, {
         key: 'onAddFormToDOM',
         value: function onAddFormToDOM() {
             document.addEventListener("DOMContentLoaded", function (event) {
                 this.onShowSlotForm();
             });
+        }
+    }, {
+        key: 'fetchTodosFromDatabase',
+        value: function fetchTodosFromDatabase() {
+            var request = new XMLHttpRequest();
+            req.open('GET', '/todo', true);
+            req.onload = function () {
+                var todos = JSON.parse(request.responseText);
+                console.log(todos);
+            };
+            request.send();
         }
     }, {
         key: 'render',
@@ -10088,22 +10102,9 @@ var Slots = exports.Slots = function (_React$Component) {
                         'div',
                         { className: 'row' },
                         _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 dynamic-item' },
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                'Database Design'
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 dynamic-item' },
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                'Data Structure and Algorithms'
-                            )
+                            'p',
+                            null,
+                            'Item 1'
                         )
                     )
                 );
@@ -10131,18 +10132,9 @@ var Slots = exports.Slots = function (_React$Component) {
                             'div',
                             { className: 'col-md-12 dynamic-item' },
                             _react2.default.createElement(
-                                'p',
+                                'span',
                                 null,
-                                'Database Design'
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 dynamic-item' },
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                'Data Structure and Algorithms'
+                                'Item 1'
                             )
                         )
                     )
@@ -10391,7 +10383,12 @@ var App = function (_React$Component) {
         _this.state = {
             showSlots: false,
             showSettings: false,
-            showControllers: false
+            showControllers: false,
+            onShowSlots: _this.onShowSlots.bind(_this),
+            onFetchTodo: _this.onFetchTodosFromDatabase.bind(_this),
+            onShowSettings: _this.onShowSettings.bind(_this),
+            onClickSlots: _this.onClickSlots.bind(_this)
+
         };
         return _this;
     }
@@ -10428,6 +10425,23 @@ var App = function (_React$Component) {
                 showSettings: false,
                 showControllers: false
             });
+        }
+    }, {
+        key: 'onFetchTodosFromDatabase',
+        value: function onFetchTodosFromDatabase() {
+            var request = new XMLHttpRequest();
+            request.open('GET', '/todo', true);
+            request.onload = function () {
+                var todos = JSON.parse(request.responseText);
+                console.log(todos);
+            };
+            request.send();
+        }
+    }, {
+        key: 'onClickSlots',
+        value: function onClickSlots() {
+            this.onShowSlots();
+            this.onFetchTodosFromDatabase();
         }
     }, {
         key: 'render',
@@ -10469,7 +10483,7 @@ var App = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-md-12' },
-                                    _react2.default.createElement(_Sidebar.Sidebar, { showSlots: this.onShowSlots.bind(this), showSettings: this.onShowSettings.bind(this) })
+                                    _react2.default.createElement(_Sidebar.Sidebar, { fetchTodo: this.state.onFetchTodo, showSlots: this.state.onClickSlots, showSettings: this.state.onShowSettings })
                                 ),
                                 _react2.default.createElement(
                                     'div',

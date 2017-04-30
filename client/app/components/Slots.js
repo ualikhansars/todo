@@ -1,5 +1,6 @@
 import React from 'react';
-import {SlotsForm} from './SlotsForm'
+import {SlotsForm} from './SlotsForm';
+
 export class Slots extends React.Component {
     constructor() {
             super();
@@ -14,11 +15,23 @@ export class Slots extends React.Component {
         });
     }
 
+    // to bind form to the DOM
     onAddFormToDOM() {
         document.addEventListener("DOMContentLoaded", function(event) { 
         this.onShowSlotForm();
         });
     }
+
+    fetchTodosFromDatabase() {
+        let request = new XMLHttpRequest();
+        req.open('GET', '/todo', true);
+        req.onload = function() {
+            let todos = JSON.parse(request.responseText);
+            console.log(todos);
+        }
+        request.send();
+    }
+
     render() {
         let isShowSlotForm = this.state.showSlotForm;
         if(isShowSlotForm) {
@@ -31,12 +44,7 @@ export class Slots extends React.Component {
                 </div>
                 <SlotsForm showSlotsForm={this.onAddFormToDOM.bind(this)}/>
                 <div className="row">
-                    <div className="col-md-12 dynamic-item">
-                        <p>Database Design</p>
-                    </div>
-                    <div className="col-md-12 dynamic-item">
-                        <p>Data Structure and Algorithms</p>
-                    </div>
+                    <p>Item 1</p>
                 </div>
             </div>  
             );
@@ -48,12 +56,10 @@ export class Slots extends React.Component {
                     <button onClick={this.onShowSlotForm.bind(this)} className="btn btn-success">Create new</button>
                 </div>
             </div>
+
             <div className="row">
                 <div className="col-md-12 dynamic-item">
-                    <p>Database Design</p>
-                </div>
-                <div className="col-md-12 dynamic-item">
-                    <p>Data Structure and Algorithms</p>
+                    <span>Item 1</span>
                 </div>
             </div>
           </div>  

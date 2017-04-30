@@ -25,5 +25,6 @@ module.exports.saveTodo = function(req, res, next) {
 
     var todo = new Todo(todoItem);
     todo.save();
-    res.redirect('/');
+    
+    res.render('index', {});
 }

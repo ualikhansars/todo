@@ -16,6 +16,11 @@ class App extends React.Component {
             showSlots: false,
             showSettings: false,
             showControllers: false,
+            onShowSlots: this.onShowSlots.bind(this),
+            onFetchTodo: this.onFetchTodosFromDatabase.bind(this),
+            onShowSettings: this.onShowSettings.bind(this),
+            onClickSlots: this.onClickSlots.bind(this),
+
         }
     }
     onShowSlots(){
@@ -43,6 +48,21 @@ class App extends React.Component {
             showControllers: false,
         });
     }
+
+    onFetchTodosFromDatabase() {
+        let request = new XMLHttpRequest();
+        request.open('GET', '/todo', true);
+        request.onload = function() {
+            let todos = JSON.parse(request.responseText);
+            console.log(todos);
+        }
+        request.send();
+    }
+    
+    onClickSlots() {
+        this.onShowSlots();
+        this.onFetchTodosFromDatabase();
+    }
    
     render() {
         return (
@@ -63,7 +83,7 @@ class App extends React.Component {
                    <div className="col-md-3 col-sm-12">
                        <div className="row">
                            <div className="col-md-12">
-                                <Sidebar showSlots={this.onShowSlots.bind(this)} showSettings={this.onShowSettings.bind(this)}/>
+                                <Sidebar fetchTodo={this.state.onFetchTodo} showSlots={this.state.onClickSlots} showSettings={this.state.onShowSettings}/>
                            </div>
                            <div className="col-md-12">
                                 <Calendar/>
