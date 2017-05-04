@@ -10043,7 +10043,8 @@ var Slots = exports.Slots = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Slots.__proto__ || Object.getPrototypeOf(Slots)).call(this));
 
         _this.state = {
-            showSlotForm: false
+            showSlotForm: false,
+            todos: null
         };
         return _this;
     }
@@ -10063,23 +10064,110 @@ var Slots = exports.Slots = function (_React$Component) {
         value: function onAddFormToDOM() {
             document.addEventListener("DOMContentLoaded", function (event) {
                 this.onShowSlotForm();
+                // this.onFetchTodosFromDatabase();
             });
         }
     }, {
-        key: 'fetchTodosFromDatabase',
-        value: function fetchTodosFromDatabase() {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var setState = this.onSetState;
+            this.ajax("/todo").then(function (result) {
+                setState(todos, result);
+            }).catch(function (err) {
+                console.error('error' + err);
+            });
+        }
+    }, {
+        key: 'ajax',
+        value: function ajax(url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    resolve(this.responseText);
+                };
+                xhr.onerror = reject;
+                xhr.open('GET', url);
+                xhr.send();
+            });
+        }
+    }, {
+        key: 'onFetchTodosFromDatabase',
+        value: function onFetchTodosFromDatabase() {
+            var renderTodo = this.renderTodo;
             var request = new XMLHttpRequest();
-            req.open('GET', '/todo', true);
-            req.onload = function () {
-                var todos = JSON.parse(request.responseText);
-                console.log(todos);
-            };
+            request.open('GET', '/todo', true);
+
+            // request.onload = function() {
+            //     let data = JSON.parse(request.responseText);
+            //     renderTodo(data);
+            // }
             request.send();
+        }
+    }, {
+        key: 'getApi',
+        value: function getApi(apiRoute, callback) {
+            var request = new XMLHttpRequest();
+
+            request.addEventListener('load', dataHandler);
+            request.open('GET', apiRoute); //sends to the API you include
+            request.send();
+
+            function dataHandler() {
+                //this passes "this.responseText" to your callback function
+                callback(this.responseText);
+            }
+        }
+    }, {
+        key: 'renderTodo',
+        value: function renderTodo(data) {
+            // let todoContainer = document.createElement('div');
+            var todoContainer = document.getElementById('dynamic');
+            var todoString = '';
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var todo = _step.value;
+
+                    todoString += '<div id="slots_todo_item"><p> Title: ' + todo.title + '</p>';
+                    todoString += '<p> Duration: ' + todo.duration + '</p></div>';
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            todoContainer.insertAdjacentHTML('beforeend', todoString);
+        }
+    }, {
+        key: 'onSetState',
+        value: function onSetState(prevState, nextState) {
+            this.setState({
+                prevState: nextState
+            });
         }
     }, {
         key: 'render',
         value: function render() {
             var isShowSlotForm = this.state.showSlotForm;
+            // let todos = this.ajax("/todo").then(function(result) {
+            //     return result
+            // }).catch(function() {
+            //     console.error('error');
+            // });
+            // console.log(todos);
             if (isShowSlotForm) {
                 return _react2.default.createElement(
                     'div',
@@ -10098,15 +10186,7 @@ var Slots = exports.Slots = function (_React$Component) {
                         )
                     ),
                     _react2.default.createElement(_SlotsForm.SlotsForm, { showSlotsForm: this.onAddFormToDOM.bind(this) }),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'row' },
-                        _react2.default.createElement(
-                            'p',
-                            null,
-                            'Item 1'
-                        )
-                    )
+                    _react2.default.createElement('div', { className: 'row dynamic-item' })
                 );
             } else {
                 return _react2.default.createElement(
@@ -10125,19 +10205,7 @@ var Slots = exports.Slots = function (_React$Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'row' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-md-12 dynamic-item' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                'Item 1'
-                            )
-                        )
-                    )
+                    _react2.default.createElement('div', { className: 'row dynamic-item' })
                 );
             }
         }
@@ -10385,7 +10453,7 @@ var App = function (_React$Component) {
             showSettings: false,
             showControllers: false,
             onShowSlots: _this.onShowSlots.bind(_this),
-            onFetchTodo: _this.onFetchTodosFromDatabase.bind(_this),
+            // onFetchTodo: this.onFetchTodosFromDatabase.bind(this),
             onShowSettings: _this.onShowSettings.bind(_this),
             onClickSlots: _this.onClickSlots.bind(_this)
 
@@ -10426,22 +10494,22 @@ var App = function (_React$Component) {
                 showControllers: false
             });
         }
-    }, {
-        key: 'onFetchTodosFromDatabase',
-        value: function onFetchTodosFromDatabase() {
-            var request = new XMLHttpRequest();
-            request.open('GET', '/todo', true);
-            request.onload = function () {
-                var todos = JSON.parse(request.responseText);
-                console.log(todos);
-            };
-            request.send();
-        }
+
+        // onFetchTodosFromDatabase() {
+        //     let request = new XMLHttpRequest();
+        //     request.open('GET', '/todo', true);
+        //     request.onload = function() {
+        //         let todos = JSON.parse(request.responseText);
+        //         console.log(todos);
+        //     }
+        //     request.send();
+        // }
+
     }, {
         key: 'onClickSlots',
         value: function onClickSlots() {
             this.onShowSlots();
-            this.onFetchTodosFromDatabase();
+            // this.onFetchTodosFromDatabase();
         }
     }, {
         key: 'render',
