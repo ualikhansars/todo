@@ -10044,7 +10044,7 @@ var Slots = exports.Slots = function (_React$Component) {
 
         _this.state = {
             showSlotForm: false,
-            todos: null
+            todos: []
         };
         return _this;
     }
@@ -10070,26 +10070,22 @@ var Slots = exports.Slots = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var setState = this.onSetState;
-            this.ajax("/todo").then(function (result) {
-                setState(todos, result);
-            }).catch(function (err) {
-                console.error('error' + err);
-            });
+            this.onFetchTodosFromDatabase();
         }
-    }, {
-        key: 'ajax',
-        value: function ajax(url) {
-            return new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                xhr.onload = function () {
-                    resolve(this.responseText);
-                };
-                xhr.onerror = reject;
-                xhr.open('GET', url);
-                xhr.send();
-            });
-        }
+
+        // ajax(url) {
+        //     return new Promise(function(resolve, reject) {
+        //         var xhr = new XMLHttpRequest();
+        //         xhr.onload = function() {
+        //             resolve(this.responseText);
+        //         };
+        //         xhr.onerror = reject;
+        //         xhr.open('GET', url);
+        //         xhr.send();
+        //         });
+        // }
+
+
     }, {
         key: 'onFetchTodosFromDatabase',
         value: function onFetchTodosFromDatabase() {
@@ -10097,26 +10093,28 @@ var Slots = exports.Slots = function (_React$Component) {
             var request = new XMLHttpRequest();
             request.open('GET', '/todo', true);
 
-            // request.onload = function() {
-            //     let data = JSON.parse(request.responseText);
-            //     renderTodo(data);
-            // }
+            request.onload = function () {
+                var data = JSON.parse(request.responseText);
+                this.setState({
+                    todos: data
+                });
+            }.bind(this);
             request.send();
         }
-    }, {
-        key: 'getApi',
-        value: function getApi(apiRoute, callback) {
-            var request = new XMLHttpRequest();
 
-            request.addEventListener('load', dataHandler);
-            request.open('GET', apiRoute); //sends to the API you include
-            request.send();
+        // getApi(apiRoute, callback){
+        //     var request = new XMLHttpRequest();
 
-            function dataHandler() {
-                //this passes "this.responseText" to your callback function
-                callback(this.responseText);
-            }
-        }
+        //     request.addEventListener('load', dataHandler);
+        //     request.open('GET', apiRoute); //sends to the API you include
+        //     request.send();
+
+        //     function dataHandler(){
+        //         //this passes "this.responseText" to your callback function
+        //         callback(this.responseText);
+        //     }
+        // }
+
     }, {
         key: 'renderTodo',
         value: function renderTodo(data) {
@@ -10162,12 +10160,7 @@ var Slots = exports.Slots = function (_React$Component) {
         key: 'render',
         value: function render() {
             var isShowSlotForm = this.state.showSlotForm;
-            // let todos = this.ajax("/todo").then(function(result) {
-            //     return result
-            // }).catch(function() {
-            //     console.error('error');
-            // });
-            // console.log(todos);
+
             if (isShowSlotForm) {
                 return _react2.default.createElement(
                     'div',
@@ -10205,7 +10198,21 @@ var Slots = exports.Slots = function (_React$Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement('div', { className: 'row dynamic-item' })
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row dynamic-item' },
+                        _react2.default.createElement(
+                            'ul',
+                            { className: 'todo-item' },
+                            this.state.todos.map(function (todo, i) {
+                                return _react2.default.createElement(
+                                    'li',
+                                    { key: i },
+                                    todo.title
+                                );
+                            })
+                        )
+                    )
                 );
             }
         }

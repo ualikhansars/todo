@@ -6,7 +6,7 @@ export class Slots extends React.Component {
             super();
             this.state = {
                 showSlotForm: false,
-                todos: null
+                todos: []
             }
     }
 
@@ -25,26 +25,20 @@ export class Slots extends React.Component {
     }
 
     componentDidMount() {
-       let setState = this.onSetState;
-       this.ajax("/todo").then(function(result) {
-            setState(todos, result);
-        })
-        // .catch(function(err) {
-        //     console.error('error' + err );
-        // });
+       this.onFetchTodosFromDatabase();
     }
 
-    ajax(url) {
-        return new Promise(function(resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                resolve(this.responseText);
-            };
-            xhr.onerror = reject;
-            xhr.open('GET', url);
-            xhr.send();
-            });
-    }
+    // ajax(url) {
+    //     return new Promise(function(resolve, reject) {
+    //         var xhr = new XMLHttpRequest();
+    //         xhr.onload = function() {
+    //             resolve(this.responseText);
+    //         };
+    //         xhr.onerror = reject;
+    //         xhr.open('GET', url);
+    //         xhr.send();
+    //         });
+    // }
     
 
 
@@ -53,25 +47,27 @@ export class Slots extends React.Component {
         let request = new XMLHttpRequest();
         request.open('GET', '/todo', true);
 
-        // request.onload = function() {
-        //     let data = JSON.parse(request.responseText);
-        //     renderTodo(data);
-        // }
+        request.onload = function() {
+            let data = JSON.parse(request.responseText);
+            this.setState({
+                todos: data
+            })
+        }.bind(this);
         request.send();
     }
 
-    getApi(apiRoute, callback){
-        var request = new XMLHttpRequest();
+    // getApi(apiRoute, callback){
+    //     var request = new XMLHttpRequest();
         
-        request.addEventListener('load', dataHandler);
-        request.open('GET', apiRoute); //sends to the API you include
-        request.send();
+    //     request.addEventListener('load', dataHandler);
+    //     request.open('GET', apiRoute); //sends to the API you include
+    //     request.send();
         
-        function dataHandler(){
-            //this passes "this.responseText" to your callback function
-            callback(this.responseText);
-        }
-    }
+    //     function dataHandler(){
+    //         //this passes "this.responseText" to your callback function
+    //         callback(this.responseText);
+    //     }
+    // }
 
     renderTodo(data) {
         // let todoContainer = document.createElement('div');
@@ -92,12 +88,7 @@ export class Slots extends React.Component {
 
     render() {
         let isShowSlotForm = this.state.showSlotForm;
-        // let todos = this.ajax("/todo").then(function(result) {
-        //     return result
-        // }).catch(function() {
-        //     console.error('error');
-        // });
-        // console.log(todos);
+
         if(isShowSlotForm) {
             return (
                 <div className="row dynamic">
@@ -121,6 +112,11 @@ export class Slots extends React.Component {
             </div>
 
             <div className="row dynamic-item">
+                 <ul className="todo-item">
+                    {this.state.todos.map((todo,i) => 
+                        <li key={i}>{todo.title}</li>   
+                    )}
+                 </ul>
             </div>
           </div>  
         );
