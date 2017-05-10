@@ -44,6 +44,10 @@ var todoSchema = mongoose.Schema({
         max: 59,  
         require: true
     },
+    display: {
+        type: Boolean, 
+        default: false
+    }
 });
 
 module.exports = mongoose.model('Todo', todoSchema);

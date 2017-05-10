@@ -4,12 +4,12 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const mongoose = require('mongoose');
-const config = require('./webpack.config.js');
+// const config = require('./webpack.config.js');
 const hbs = require('express-handlebars');
 const validator = require('express-validator');
-let compiler = webpack(config);
+// let compiler = webpack(config);
 
 
 const index = require('./routes/index');
@@ -38,9 +38,9 @@ app.use('/users', users);
 app.use('/todo', todo);
 
 // run webpack
-compiler.run(function(err, stats) {
-   console.log('webpack running');
-});
+// compiler.run(function(err, stats) {
+//    console.log('webpack running');
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

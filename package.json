@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run build",
-    "build": "node ./bin/www --progress --colors --watch",
+    "build": "node ./bin/www",
     "test": "mocha"
   },
   "dependencies": {

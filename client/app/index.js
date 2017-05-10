@@ -17,10 +17,10 @@ class App extends React.Component {
             showSettings: false,
             showControllers: false,
             onShowSlots: this.onShowSlots.bind(this),
-            // onFetchTodo: this.onFetchTodosFromDatabase.bind(this),
             onShowSettings: this.onShowSettings.bind(this),
             onClickSlots: this.onClickSlots.bind(this),
-
+            todos: [],
+            onFetchTodos: this.onFetchTodosFromDatabase.bind(this),
         }
     }
     onShowSlots(){
@@ -49,15 +49,19 @@ class App extends React.Component {
         });
     }
 
-    // onFetchTodosFromDatabase() {
-    //     let request = new XMLHttpRequest();
-    //     request.open('GET', '/todo', true);
-    //     request.onload = function() {
-    //         let todos = JSON.parse(request.responseText);
-    //         console.log(todos);
-    //     }
-    //     request.send();
-    // }
+   onFetchTodosFromDatabase() {
+        let renderTodo = this.renderTodo;
+        let request = new XMLHttpRequest();
+        request.open('GET', '/todo', true);
+
+        request.onload = function() {
+            let data = JSON.parse(request.responseText);
+            this.setState({
+                todos: data
+            })
+        }.bind(this);
+        request.send();
+    }
     
     onClickSlots() {
         this.onShowSlots();
@@ -78,12 +82,12 @@ class App extends React.Component {
                        <Todo showControllers={this.onShowSlotsAndControllers.bind(this)}/>
                    </div>
                    <div className="col-md-5 col-sm-12">
-                        <Dynamic showSlots={this.state.showSlots} showSettings={this.state.showSettings} showControllers={this.state.showControllers}/>
+                        <Dynamic showSlots={this.state.showSlots} showSettings={this.state.showSettings} showControllers={this.state.showControllers} fetchTodo={this.state.onFetchTodo} todos={this.state.todos}/>
                    </div>
                    <div className="col-md-3 col-sm-12">
                        <div className="row">
                            <div className="col-md-12">
-                                <Sidebar fetchTodo={this.state.onFetchTodo} showSlots={this.state.onClickSlots} showSettings={this.state.onShowSettings}/>
+                                <Sidebar showSlots={this.state.onClickSlots} showSettings={this.state.onShowSettings}/>
                            </div>
                            <div className="col-md-12">
                                 <Calendar/>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {SlotsForm} from './SlotsForm';
+import {Slot} from './Slot';
 
 export class Slots extends React.Component {
     constructor() {
@@ -28,20 +29,6 @@ export class Slots extends React.Component {
        this.onFetchTodosFromDatabase();
     }
 
-    // ajax(url) {
-    //     return new Promise(function(resolve, reject) {
-    //         var xhr = new XMLHttpRequest();
-    //         xhr.onload = function() {
-    //             resolve(this.responseText);
-    //         };
-    //         xhr.onerror = reject;
-    //         xhr.open('GET', url);
-    //         xhr.send();
-    //         });
-    // }
-    
-
-
     onFetchTodosFromDatabase() {
         let renderTodo = this.renderTodo;
         let request = new XMLHttpRequest();
@@ -56,35 +43,15 @@ export class Slots extends React.Component {
         request.send();
     }
 
-    // getApi(apiRoute, callback){
-    //     var request = new XMLHttpRequest();
-        
-    //     request.addEventListener('load', dataHandler);
-    //     request.open('GET', apiRoute); //sends to the API you include
-    //     request.send();
-        
-    //     function dataHandler(){
-    //         //this passes "this.responseText" to your callback function
-    //         callback(this.responseText);
-    //     }
-    // }
-
-    renderTodo(data) {
-        // let todoContainer = document.createElement('div');
-        let todoContainer = document.getElementById('dynamic');
-        let todoString = '';
-        for(let todo of data) {
-            todoString += '<div id="slots_todo_item"><p> Title: ' + todo.title + '</p>';
-            todoString += '<p> Duration: ' + todo.duration + '</p></div>'; 
-        }
-       todoContainer.insertAdjacentHTML('beforeend', todoString);
-  }
-
-  onSetState(prevState, nextState) {
-    this.setState({
-        prevState: nextState
-    });
-  }
+    addToList(id) {
+        let request = new XMLHttpRequest();
+        let url = '/todo/addToList/' + id;
+        request.open('PUT', url , true);
+        console.log('id',id);
+        console.log('url',url);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send();
+    }
 
     render() {
         let isShowSlotForm = this.state.showSlotForm;
@@ -114,7 +81,7 @@ export class Slots extends React.Component {
             <div className="row dynamic-item">
                  <ul className="todo-item">
                     {this.state.todos.map((todo,i) => 
-                        <li key={i}>{todo.title}</li>   
+                        <Slot addToList={this.addToList} title={todo.title} id={todo._id} key={i}/>   
                     )}
                  </ul>
             </div>
