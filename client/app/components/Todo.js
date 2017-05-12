@@ -1,29 +1,22 @@
 import React from 'react';
 
 export class Todo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            todos: [1,2,3,4,5,6,7,8,9]
-        }
-    }
-
     render() {
         return(
-          <div className="container todos">
-            <div className="row">
-                <div className="col-md-4 md-offset-4">
-                    <h2>Todos</h2>
-                </div>
-            </div>
-            <div className="row">
-                <ul>
-                    {this.state.todos.map((todo,i) => 
-                        <li className="todo" key={i} className="todo" onMouseMove={this.props.showControllers}>{todo}</li>
-                    )}
-                </ul>
-            </div>
-          </div>    
+            <li className="todo" onMouseMove={this.props.showControllers}>
+                <div>
+                    <p>
+                        <button className="btn btn-danger">Delete</button>
+                        <button className="btn btn-warning">Edit</button>
+                    </p>
+                    <p>{this.props.property.title}</p>
+                    <p>Duration: {this.props.property.duration}</p>
+                    <span>Start Time: {this.props.property.startTimeHours}:{this.props.property.startTimeMinutes}</span>
+                    <span>Finish Time: {this.props.property.finishTimeHours}:{this.props.property.finishTimeMinutes}</span>
+                </div> 
+            </li>
         );
     }
 }
+
+

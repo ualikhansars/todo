@@ -7,7 +7,7 @@ export class Slots extends React.Component {
             super();
             this.state = {
                 showSlotForm: false,
-                todos: []
+                // todos: []
             }
     }
 
@@ -26,30 +26,29 @@ export class Slots extends React.Component {
     }
 
     componentDidMount() {
-       this.onFetchTodosFromDatabase();
+    //    this.onFetchTodosFromDatabase();
+        this.props.fetchTodo();
     }
 
-    onFetchTodosFromDatabase() {
-        let renderTodo = this.renderTodo;
-        let request = new XMLHttpRequest();
-        request.open('GET', '/todo', true);
+    // onFetchTodosFromDatabase() {
+    //     let renderTodo = this.renderTodo;
+    //     let request = new XMLHttpRequest();
+    //     request.open('GET', '/todo', true);
 
-        request.onload = function() {
-            let data = JSON.parse(request.responseText);
-            this.setState({
-                todos: data
-            })
-        }.bind(this);
-        request.send();
-    }
+    //     request.onload = function() {
+    //         let data = JSON.parse(request.responseText);
+    //         this.setState({
+    //             todos: data
+    //         })
+    //     }.bind(this);
+    //     request.send();
+    // }
 
     addToList(id) {
         let request = new XMLHttpRequest();
         let url = '/todo/addToList/' + id;
         request.open('PUT', url , true);
-        console.log('id',id);
-        console.log('url',url);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send();
     }
 
@@ -80,8 +79,8 @@ export class Slots extends React.Component {
 
             <div className="row dynamic-item">
                  <ul className="todo-item">
-                    {this.state.todos.map((todo,i) => 
-                        <Slot addToList={this.addToList} title={todo.title} id={todo._id} key={i}/>   
+                    {this.props.todos.map((todo,i) => 
+                        <Slot addToList={this.addToList} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
                     )}
                  </ul>
             </div>

@@ -9,6 +9,7 @@ export class Slot extends React.Component {
                 </div>
                 <div className="todo_desc col-md-8">
                         <p>{this.props.title}</p>
+                        <p>Display: {this.props.display}</p>
                         <p className="todo_id">{this.props.id}</p>
                 </div>
             </div>   

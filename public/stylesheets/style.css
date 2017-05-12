@@ -42,13 +42,14 @@ div.todos {
 
 div.todos li.todo {
   list-style-type: none;
-  background-color: #ccc;
+  background-color: forestgreen;
   min-width: 160px;
   text-align: center;
 }
 
 div.todos li.todo:hover {
   border-bottom: 1px solid darkolivegreen;
+  background-color: darkolivegreen;
 }
 
 /* Dynamic Content */
@@ -59,9 +60,9 @@ div.dynamic {
 div.dynamic div.dynamic-item {
   background-color: chocolate;
   text-align: center;
-  color: red;
+  color: #fff;
 }
 
 div.dynamic div.dynamic-item:hover > p {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #fff;
 }

@@ -2,7 +2,6 @@ import React from 'react';
 
 import {Slots} from './Slots';
 import {Settings} from './Settings';
-import {TodoController} from './Todo-Controller';
 /* Dynamic should display all data from all components in it */
 
 export class Dynamic extends React.Component {
@@ -11,7 +10,6 @@ export class Dynamic extends React.Component {
         this.state = {
             showSlots: props.showSlots,
             showSettings: props.showSettings,
-            showSlotsAndControllers: props.showControllers,
         };
     }
     
@@ -31,20 +29,12 @@ export class Dynamic extends React.Component {
          let isShowSlotsAndControllers = this.state.showSlotsAndControllers;
          if(isShowSlots.showSlots) {
             return (
-                <Slots/>
+                <Slots todos={this.props.todos} fetchTodo={this.props.fetchTodo}/>
             );
          } 
          if(isShowSettings.showSettings) {
              return(
                  <Settings/>
-             );
-         }
-         if(isShowSlotsAndControllers.showControllers) {
-             return(
-                 <div>
-                    <TodoController/>
-                     <Slots/>
-                 </div>
              );
          }
          else {

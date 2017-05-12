@@ -5,7 +5,7 @@ var Todo = require('../models/todo_model');
 
 var displayTodoController = require('../controllers/displayTodoController');
 var displayTodo = displayTodoController.displayTodo;
-var addToList = require('../controllers/addToListController');
+
 
 var saveTodo = saveTodoController.saveTodo;
 

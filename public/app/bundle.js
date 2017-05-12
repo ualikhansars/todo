@@ -9580,8 +9580,6 @@ var _Slots = __webpack_require__(89);
 
 var _Settings = __webpack_require__(87);
 
-var _TodoController = __webpack_require__(91);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9602,8 +9600,7 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
 
         _this.state = {
             showSlots: props.showSlots,
-            showSettings: props.showSettings,
-            showSlotsAndControllers: props.showControllers
+            showSettings: props.showSettings
         };
         return _this;
     }
@@ -9629,18 +9626,10 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
             var isShowSettings = this.state.showSettings;
             var isShowSlotsAndControllers = this.state.showSlotsAndControllers;
             if (isShowSlots.showSlots) {
-                return _react2.default.createElement(_Slots.Slots, null);
+                return _react2.default.createElement(_Slots.Slots, { todos: this.props.todos, fetchTodo: this.props.fetchTodo });
             }
             if (isShowSettings.showSettings) {
                 return _react2.default.createElement(_Settings.Settings, null);
-            }
-            if (isShowSlotsAndControllers.showControllers) {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(_TodoController.TodoController, null),
-                    _react2.default.createElement(_Slots.Slots, null)
-                );
             } else {
                 return _react2.default.createElement(
                     'p',
@@ -9853,7 +9842,7 @@ var Sidebar = exports.Sidebar = function (_React$Component) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Todo = undefined;
+exports.Todos = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -9861,9 +9850,9 @@ var _react = __webpack_require__(9);
 
 var _react2 = _interopRequireDefault(_react);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Todo = __webpack_require__(91);
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -9871,63 +9860,106 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Todo = exports.Todo = function (_React$Component) {
-    _inherits(Todo, _React$Component);
+var Todos = exports.Todos = function (_React$Component) {
+    _inherits(Todos, _React$Component);
 
-    function Todo(props) {
-        _classCallCheck(this, Todo);
+    function Todos() {
+        _classCallCheck(this, Todos);
 
-        var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
-
-        _this.state = {
-            todos: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (Todos.__proto__ || Object.getPrototypeOf(Todos)).apply(this, arguments));
     }
 
-    _createClass(Todo, [{
-        key: "render",
-        value: function render() {
-            var _this2 = this;
+    _createClass(Todos, [{
+        key: 'componentDidMount',
 
+        // constructor(props) {
+        //     super(props);
+        //     this.state = {
+        //         todos: []
+        //     }
+        // }
+
+        value: function componentDidMount() {
+            this.props.fetchTodo();
+        }
+
+        // componentWillUpdate(nextProps, nextState) {
+        //     console.log('Component will update', nextProps, nextState);
+        // }
+
+        // shouldComponentUpdate(nextProps, nextState) {
+        //     console.log('Should component update', nextProps, nextState);
+        //     return true;
+        // }
+
+        // componentWillReceiveProps(nextProps) {
+        //     console.log('Component will receive props', nextProps);
+        // }
+
+        // componentDidUpdate(prevProps, prevState) {
+        //     console.log('Component Did Update', prevProps, prevState);
+        // }
+
+        // onFetchTodosFromDatabase() {
+        //     let renderTodo = this.renderTodo;
+        //     let request = new XMLHttpRequest();
+        //     request.open('GET', '/todo', true);
+
+        //     request.onload = function() {
+        //         let data = JSON.parse(request.responseText);
+        //         this.setState({
+        //             todos: data
+        //         })
+        //     }.bind(this);
+        //     request.send();
+        // }
+
+    }, {
+        key: 'render',
+        value: function render() {
+            var todos = this.props.todos.map(function (todo, i) {
+                var property = {
+                    title: todo.title,
+                    duration: todo.duration,
+                    startTimeHours: todo.startTimeHours,
+                    startTimeMinutes: todo.startTimeMinutes,
+                    finishTimeHours: todo.finishTimeHours,
+                    finishTimeMinutes: todo.finishTimeMinutes
+                };
+                if (todo.display) {
+                    return _react2.default.createElement(_Todo.Todo, { key: i, property: property });
+                }
+            });
             return _react2.default.createElement(
-                "div",
-                { className: "container todos" },
+                'div',
+                { className: 'container todos' },
                 _react2.default.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                        "div",
-                        { className: "col-md-4 md-offset-4" },
+                        'div',
+                        { className: 'col-md-4 md-offset-4' },
                         _react2.default.createElement(
-                            "h2",
+                            'h2',
                             null,
-                            "Todos"
+                            'Todos'
                         )
                     )
                 ),
                 _react2.default.createElement(
-                    "div",
-                    { className: "row" },
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                        "ul",
+                        'ul',
                         null,
-                        this.state.todos.map(function (todo, i) {
-                            var _React$createElement;
-
-                            return _react2.default.createElement(
-                                "li",
-                                (_React$createElement = { className: "todo", key: i }, _defineProperty(_React$createElement, "className", "todo"), _defineProperty(_React$createElement, "onMouseMove", _this2.props.showControllers), _React$createElement),
-                                todo
-                            );
-                        })
+                        todos
                     )
                 )
             );
         }
     }]);
 
-    return Todo;
+    return Todos;
 }(_react2.default.Component);
 
 /***/ }),
@@ -10070,6 +10102,12 @@ var Slot = exports.Slot = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "p",
+                        null,
+                        "Display: ",
+                        this.props.display
+                    ),
+                    _react2.default.createElement(
+                        "p",
                         { className: "todo_id" },
                         this.props.id
                     )
@@ -10120,8 +10158,7 @@ var Slots = exports.Slots = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Slots.__proto__ || Object.getPrototypeOf(Slots)).call(this));
 
         _this.state = {
-            showSlotForm: false,
-            todos: []
+            showSlotForm: false
         };
         return _this;
     }
@@ -10147,32 +10184,31 @@ var Slots = exports.Slots = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.onFetchTodosFromDatabase();
+            //    this.onFetchTodosFromDatabase();
+            this.props.fetchTodo();
         }
-    }, {
-        key: 'onFetchTodosFromDatabase',
-        value: function onFetchTodosFromDatabase() {
-            var renderTodo = this.renderTodo;
-            var request = new XMLHttpRequest();
-            request.open('GET', '/todo', true);
 
-            request.onload = function () {
-                var data = JSON.parse(request.responseText);
-                this.setState({
-                    todos: data
-                });
-            }.bind(this);
-            request.send();
-        }
+        // onFetchTodosFromDatabase() {
+        //     let renderTodo = this.renderTodo;
+        //     let request = new XMLHttpRequest();
+        //     request.open('GET', '/todo', true);
+
+        //     request.onload = function() {
+        //         let data = JSON.parse(request.responseText);
+        //         this.setState({
+        //             todos: data
+        //         })
+        //     }.bind(this);
+        //     request.send();
+        // }
+
     }, {
         key: 'addToList',
         value: function addToList(id) {
             var request = new XMLHttpRequest();
             var url = '/todo/addToList/' + id;
             request.open('PUT', url, true);
-            console.log('id', id);
-            console.log('url', url);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send();
         }
     }, {
@@ -10225,8 +10261,8 @@ var Slots = exports.Slots = function (_React$Component) {
                         _react2.default.createElement(
                             'ul',
                             { className: 'todo-item' },
-                            this.state.todos.map(function (todo, i) {
-                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.addToList, title: todo.title, id: todo._id, key: i });
+                            this.props.todos.map(function (todo, i) {
+                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.addToList, display: todo.display, title: todo.title, id: todo._id, key: i });
                             })
                         )
                     )
@@ -10375,7 +10411,7 @@ var SlotsForm = exports.SlotsForm = function (_React$Component) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TodoController = undefined;
+exports.Todo = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10391,44 +10427,71 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TodoController = exports.TodoController = function (_React$Component) {
-    _inherits(TodoController, _React$Component);
+var Todo = exports.Todo = function (_React$Component) {
+    _inherits(Todo, _React$Component);
 
-    function TodoController() {
-        _classCallCheck(this, TodoController);
+    function Todo() {
+        _classCallCheck(this, Todo);
 
-        return _possibleConstructorReturn(this, (TodoController.__proto__ || Object.getPrototypeOf(TodoController)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).apply(this, arguments));
     }
 
-    _createClass(TodoController, [{
+    _createClass(Todo, [{
         key: "render",
         value: function render() {
             return _react2.default.createElement(
-                "div",
-                { className: "row" },
+                "li",
+                { className: "todo", onMouseMove: this.props.showControllers },
                 _react2.default.createElement(
                     "div",
-                    { className: "col-md-6" },
+                    null,
                     _react2.default.createElement(
-                        "button",
-                        { className: "btn btn-danger" },
-                        "Remove"
-                    )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { className: "col-md-6" },
+                        "p",
+                        null,
+                        _react2.default.createElement(
+                            "button",
+                            { className: "btn btn-danger" },
+                            "Delete"
+                        ),
+                        _react2.default.createElement(
+                            "button",
+                            { className: "btn btn-warning" },
+                            "Edit"
+                        )
+                    ),
                     _react2.default.createElement(
-                        "button",
-                        { className: "btn btn-info" },
-                        "Edit"
+                        "p",
+                        null,
+                        this.props.property.title
+                    ),
+                    _react2.default.createElement(
+                        "p",
+                        null,
+                        "Duration: ",
+                        this.props.property.duration
+                    ),
+                    _react2.default.createElement(
+                        "span",
+                        null,
+                        "Start Time: ",
+                        this.props.property.startTimeHours,
+                        ":",
+                        this.props.property.startTimeMinutes
+                    ),
+                    _react2.default.createElement(
+                        "span",
+                        null,
+                        "Finish Time: ",
+                        this.props.property.finishTimeHours,
+                        ":",
+                        this.props.property.finishTimeMinutes
                     )
                 )
             );
         }
     }]);
 
-    return TodoController;
+    return Todo;
 }(_react2.default.Component);
 
 /***/ }),
@@ -10446,7 +10509,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(86);
 
-var _Todo = __webpack_require__(85);
+var _Todos = __webpack_require__(85);
 
 var _Sidebar = __webpack_require__(84);
 
@@ -10475,12 +10538,10 @@ var App = function (_React$Component) {
         _this.state = {
             showSlots: false,
             showSettings: false,
-            showControllers: false,
             onShowSlots: _this.onShowSlots.bind(_this),
             onShowSettings: _this.onShowSettings.bind(_this),
-            onClickSlots: _this.onClickSlots.bind(_this),
-            todos: [],
-            onFetchTodos: _this.onFetchTodosFromDatabase.bind(_this)
+            fetchTodo: _this.onFetchTodosFromDatabase.bind(_this),
+            todos: []
         };
         return _this;
     }
@@ -10499,14 +10560,6 @@ var App = function (_React$Component) {
             this.disableOtherEvents();
             this.setState({
                 showSettings: !this.state.showSettings
-            });
-        }
-    }, {
-        key: 'onShowSlotsAndControllers',
-        value: function onShowSlotsAndControllers() {
-            this.disableOtherEvents();
-            this.setState({
-                showControllers: true
             });
         }
     }, {
@@ -10534,12 +10587,6 @@ var App = function (_React$Component) {
             request.send();
         }
     }, {
-        key: 'onClickSlots',
-        value: function onClickSlots() {
-            this.onShowSlots();
-            // this.onFetchTodosFromDatabase();
-        }
-    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -10563,12 +10610,12 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-4 col-sm-12' },
-                            _react2.default.createElement(_Todo.Todo, { showControllers: this.onShowSlotsAndControllers.bind(this) })
+                            _react2.default.createElement(_Todos.Todos, { fetchTodo: this.state.fetchTodo, todos: this.state.todos })
                         ),
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-5 col-sm-12' },
-                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, showSettings: this.state.showSettings, showControllers: this.state.showControllers, fetchTodo: this.state.onFetchTodo, todos: this.state.todos })
+                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, showSettings: this.state.showSettings, fetchTodo: this.state.fetchTodo, todos: this.state.todos })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -10579,7 +10626,7 @@ var App = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'col-md-12' },
-                                    _react2.default.createElement(_Sidebar.Sidebar, { showSlots: this.state.onClickSlots, showSettings: this.state.onShowSettings })
+                                    _react2.default.createElement(_Sidebar.Sidebar, { showSlots: this.state.onShowSlots, showSettings: this.state.onShowSettings })
                                 ),
                                 _react2.default.createElement(
                                     'div',
