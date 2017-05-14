@@ -44,13 +44,13 @@ export class Slots extends React.Component {
     //     request.send();
     // }
 
-    addToList(id) {
-        let request = new XMLHttpRequest();
-        let url = '/todo/addToList/' + id;
-        request.open('PUT', url , true);
-        // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send();
-    }
+    // addToList(id) {
+    //     let request = new XMLHttpRequest();
+    //     let url = '/todo/addToList/' + id;
+    //     request.open('PUT', url , true);
+    //     // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //     request.send();
+    // }
 
     render() {
         let isShowSlotForm = this.state.showSlotForm;
@@ -80,7 +80,7 @@ export class Slots extends React.Component {
             <div className="row dynamic-item">
                  <ul className="todo-item">
                     {this.props.todos.map((todo,i) => 
-                        <Slot addToList={this.addToList} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
+                        <Slot addToList={this.props.addToList} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
                     )}
                  </ul>
             </div>

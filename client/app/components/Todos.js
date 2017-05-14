@@ -13,6 +13,18 @@ export class Todos extends React.Component {
        this.props.fetchTodo();
     }
 
+     ajax(method, url) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                resolve(this.responseText);
+            };
+            xhr.onerror = reject;
+            xhr.open(method, url);
+            xhr.send();
+            });
+    }
+
     // componentWillUpdate(nextProps, nextState) {
     //     console.log('Component will update', nextProps, nextState);
     // }
@@ -53,10 +65,11 @@ export class Todos extends React.Component {
                 startTimeMinutes: todo.startTimeMinutes,
                 finishTimeHours: todo.finishTimeHours,
                 finishTimeMinutes: todo.finishTimeMinutes,
+                id: todo._id,
             }
             if(todo.display) {
                 return (
-                    <Todo key={i} property={property}/>
+                    <Todo removeFromList={this.props.removeFromList} key={i} property={property}/>
                 );
             }
         });

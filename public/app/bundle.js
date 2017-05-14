@@ -9626,7 +9626,7 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
             var isShowSettings = this.state.showSettings;
             var isShowSlotsAndControllers = this.state.showSlotsAndControllers;
             if (isShowSlots.showSlots) {
-                return _react2.default.createElement(_Slots.Slots, { todos: this.props.todos, fetchTodo: this.props.fetchTodo });
+                return _react2.default.createElement(_Slots.Slots, { todos: this.props.todos, addToList: this.props.addToList, fetchTodo: this.props.fetchTodo });
             }
             if (isShowSettings.showSettings) {
                 return _react2.default.createElement(_Settings.Settings, null);
@@ -9882,6 +9882,19 @@ var Todos = exports.Todos = function (_React$Component) {
         value: function componentDidMount() {
             this.props.fetchTodo();
         }
+    }, {
+        key: 'ajax',
+        value: function ajax(method, url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    resolve(this.responseText);
+                };
+                xhr.onerror = reject;
+                xhr.open(method, url);
+                xhr.send();
+            });
+        }
 
         // componentWillUpdate(nextProps, nextState) {
         //     console.log('Component will update', nextProps, nextState);
@@ -9917,6 +9930,8 @@ var Todos = exports.Todos = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var todos = this.props.todos.map(function (todo, i) {
                 var property = {
                     title: todo.title,
@@ -9924,10 +9939,11 @@ var Todos = exports.Todos = function (_React$Component) {
                     startTimeHours: todo.startTimeHours,
                     startTimeMinutes: todo.startTimeMinutes,
                     finishTimeHours: todo.finishTimeHours,
-                    finishTimeMinutes: todo.finishTimeMinutes
+                    finishTimeMinutes: todo.finishTimeMinutes,
+                    id: todo._id
                 };
                 if (todo.display) {
-                    return _react2.default.createElement(_Todo.Todo, { key: i, property: property });
+                    return _react2.default.createElement(_Todo.Todo, { removeFromList: _this2.props.removeFromList, key: i, property: property });
                 }
             });
             return _react2.default.createElement(
@@ -10202,15 +10218,14 @@ var Slots = exports.Slots = function (_React$Component) {
         //     request.send();
         // }
 
-    }, {
-        key: 'addToList',
-        value: function addToList(id) {
-            var request = new XMLHttpRequest();
-            var url = '/todo/addToList/' + id;
-            request.open('PUT', url, true);
-            // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.send();
-        }
+        // addToList(id) {
+        //     let request = new XMLHttpRequest();
+        //     let url = '/todo/addToList/' + id;
+        //     request.open('PUT', url , true);
+        //     // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     request.send();
+        // }
+
     }, {
         key: 'render',
         value: function render() {
@@ -10262,7 +10277,7 @@ var Slots = exports.Slots = function (_React$Component) {
                             'ul',
                             { className: 'todo-item' },
                             this.props.todos.map(function (todo, i) {
-                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.addToList, display: todo.display, title: todo.title, id: todo._id, key: i });
+                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.props.addToList, display: todo.display, title: todo.title, id: todo._id, key: i });
                             })
                         )
                     )
@@ -10439,6 +10454,8 @@ var Todo = exports.Todo = function (_React$Component) {
     _createClass(Todo, [{
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "li",
                 { className: "todo", onMouseMove: this.props.showControllers },
@@ -10450,7 +10467,9 @@ var Todo = exports.Todo = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             "button",
-                            { className: "btn btn-danger" },
+                            { onClick: function onClick() {
+                                    return _this2.props.removeFromList(_this2.props.property.id);
+                                }, className: "btn btn-danger" },
                             "Delete"
                         ),
                         _react2.default.createElement(
@@ -10468,7 +10487,14 @@ var Todo = exports.Todo = function (_React$Component) {
                         "p",
                         null,
                         "Duration: ",
-                        this.props.property.duration
+                        this.props.property.duration,
+                        " min"
+                    ),
+                    _react2.default.createElement(
+                        "p",
+                        null,
+                        "Display: ",
+                        this.props.property.display
                     ),
                     _react2.default.createElement(
                         "span",
@@ -10541,6 +10567,8 @@ var App = function (_React$Component) {
             onShowSlots: _this.onShowSlots.bind(_this),
             onShowSettings: _this.onShowSettings.bind(_this),
             fetchTodo: _this.onFetchTodosFromDatabase.bind(_this),
+            addToList: _this.onAddToList.bind(_this),
+            removeFromList: _this.onRemoveFromList.bind(_this),
             todos: []
         };
         return _this;
@@ -10571,20 +10599,112 @@ var App = function (_React$Component) {
                 showControllers: false
             });
         }
+
+        //  onAddToList(id) {
+        //     let xhr = new XMLHttpRequest();
+        //     let url = '/todo/addtoList/' + id;
+        //     if("withCredentials"  in xhr) {
+        //        xhr.open('POST', url , true);
+        //     } else if(typeof XDomainRequest != 'undefined'){
+        //         xhr = new XDomainRequest();
+        //         xhr.open('PUT', url);
+        //         xhr.onload = function() {
+        //          this.onFetchTodosFromDatabase();
+        //         }     
+        //          xhr.send();
+        //     } else {
+        //         xhr = null;
+        //     }
+        // }
+
+        // onRemoveFromList(id) {
+        //     let xhr = new XMLHttpRequest();
+        //     let url = '/todo/removeFromList/' + id;
+        //     if("withCredentials"  in xhr) {
+        //        xhr.open('POST', url , true);
+        //     } else if(typeof XDomainRequest != 'undefined'){
+        //         xhr = new XDomainRequest();
+        //         xhr.open('PUT', url);
+        //     } else {
+        //         xhr = null;
+        //     }
+
+        //     xhr.onload = function() {
+        //          this.onFetchTodosFromDatabase();
+        //     }       
+        //     xhr.send();
+        // }
+
+    }, {
+        key: 'ajax',
+        value: function ajax(method, url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    resolve(this.responseText);
+                };
+                xhr.onerror = reject;
+                xhr.open(method, url);
+                xhr.send();
+            });
+        }
+    }, {
+        key: 'onRemoveFromList',
+        value: function onRemoveFromList(id) {
+            new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                var url = '/todo/removeFromList/' + id;
+                xhr.onerror = reject;
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhr.send();
+            }).then(this.onFetchTodosFromDatabase());
+        }
+    }, {
+        key: 'onAddToList',
+        value: function onAddToList(id) {
+            new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                var url = '/todo/addtoList/' + id;
+                xhr.onerror = reject;
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhr.send();
+            }).then(this.onFetchTodosFromDatabase());
+        }
+
+        /*onRemoveFromList(id) {
+            let xhr = new XMLHttpRequest();
+            let url = '/todo/removeFromList/' + id;
+            xhr.open('POST', url , true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            this.onFetchTodosFromDatabase();
+            xhr.send();
+        }*/
+
+        /*onAddToList(id) {
+           let xhr = new XMLHttpRequest();
+           let url = '/todo/addtoList/' + id;
+           xhr.open('POST', url , true);
+           xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+           xhr.send();
+        }*/
+
     }, {
         key: 'onFetchTodosFromDatabase',
         value: function onFetchTodosFromDatabase() {
-            var renderTodo = this.renderTodo;
-            var request = new XMLHttpRequest();
-            request.open('GET', '/todo', true);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/todo', true);
 
-            request.onload = function () {
-                var data = JSON.parse(request.responseText);
+            xhr.onload = function () {
+                var data = JSON.parse(xhr.responseText);
                 this.setState({
                     todos: data
                 });
             }.bind(this);
-            request.send();
+            xhr.send();
         }
     }, {
         key: 'render',
@@ -10610,12 +10730,12 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-4 col-sm-12' },
-                            _react2.default.createElement(_Todos.Todos, { fetchTodo: this.state.fetchTodo, todos: this.state.todos })
+                            _react2.default.createElement(_Todos.Todos, { removeFromList: this.state.removeFromList, fetchTodo: this.state.fetchTodo, todos: this.state.todos })
                         ),
                         _react2.default.createElement(
                             'div',
                             { className: 'col-md-5 col-sm-12' },
-                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, showSettings: this.state.showSettings, fetchTodo: this.state.fetchTodo, todos: this.state.todos })
+                            _react2.default.createElement(_Dynamic.Dynamic, { showSlots: this.state.showSlots, addToList: this.state.addToList, showSettings: this.state.showSettings, fetchTodo: this.state.fetchTodo, todos: this.state.todos })
                         ),
                         _react2.default.createElement(
                             'div',

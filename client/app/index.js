@@ -18,6 +18,8 @@ class App extends React.Component {
             onShowSlots: this.onShowSlots.bind(this),
             onShowSettings: this.onShowSettings.bind(this),
             fetchTodo: this.onFetchTodosFromDatabase.bind(this),
+            addToList: this.onAddToList.bind(this),
+            removeFromList: this.onRemoveFromList.bind(this),
             todos: []
         }
     }
@@ -40,19 +42,106 @@ class App extends React.Component {
             showControllers: false,
         });
     }
+
+    //  onAddToList(id) {
+    //     let xhr = new XMLHttpRequest();
+    //     let url = '/todo/addtoList/' + id;
+    //     if("withCredentials"  in xhr) {
+    //        xhr.open('POST', url , true);
+    //     } else if(typeof XDomainRequest != 'undefined'){
+    //         xhr = new XDomainRequest();
+    //         xhr.open('PUT', url);
+    //         xhr.onload = function() {
+    //          this.onFetchTodosFromDatabase();
+    //         }     
+    //          xhr.send();
+    //     } else {
+    //         xhr = null;
+    //     }
+    // }
+
+    // onRemoveFromList(id) {
+    //     let xhr = new XMLHttpRequest();
+    //     let url = '/todo/removeFromList/' + id;
+    //     if("withCredentials"  in xhr) {
+    //        xhr.open('POST', url , true);
+    //     } else if(typeof XDomainRequest != 'undefined'){
+    //         xhr = new XDomainRequest();
+    //         xhr.open('PUT', url);
+    //     } else {
+    //         xhr = null;
+    //     }
+
+    //     xhr.onload = function() {
+    //          this.onFetchTodosFromDatabase();
+    //     }       
+    //     xhr.send();
+    // }
+
+    ajax(method, url) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                resolve(this.responseText);
+            };
+            xhr.onerror = reject;
+            xhr.open(method, url);
+            xhr.send();
+            });
+    }
+
+    onRemoveFromList(id) {
+        new Promise(function(resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            let url = '/todo/removeFromList/' + id;
+            xhr.onerror = reject;
+            xhr.open('POST', url , true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            xhr.send();
+        }).then(this.onFetchTodosFromDatabase());
+    }
+
+    onAddToList(id) {
+        new Promise(function(resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            let url = '/todo/addtoList/' + id;
+            xhr.onerror = reject;
+            xhr.open('POST', url , true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            
+            xhr.send();
+        }).then(this.onFetchTodosFromDatabase());
+    }
+
+    /*onRemoveFromList(id) {
+        let xhr = new XMLHttpRequest();
+        let url = '/todo/removeFromList/' + id;
+        xhr.open('POST', url , true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        this.onFetchTodosFromDatabase();
+        xhr.send();
+    }*/
+
+     /*onAddToList(id) {
+        let xhr = new XMLHttpRequest();
+        let url = '/todo/addtoList/' + id;
+        xhr.open('POST', url , true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send();
+    }*/
     
     onFetchTodosFromDatabase() {
-        let renderTodo = this.renderTodo;
-        let request = new XMLHttpRequest();
-        request.open('GET', '/todo', true);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/todo', true);
 
-        request.onload = function() {
-            let data = JSON.parse(request.responseText);
+        xhr.onload = function() {
+            let data = JSON.parse(xhr.responseText);
             this.setState({
                 todos: data
             });
         }.bind(this);
-        request.send();
+        xhr.send();
     }
    
     render() {
@@ -66,10 +155,10 @@ class App extends React.Component {
                </div>
                <div className="row">
                    <div className="col-md-4 col-sm-12">
-                       <Todos fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
+                       <Todos  removeFromList={this.state.removeFromList} fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
                    </div>
                    <div className="col-md-5 col-sm-12">
-                        <Dynamic showSlots={this.state.showSlots} showSettings={this.state.showSettings} fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
+                        <Dynamic showSlots={this.state.showSlots} addToList={this.state.addToList} showSettings={this.state.showSettings} fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
                    </div>
                    <div className="col-md-3 col-sm-12">
                        <div className="row">

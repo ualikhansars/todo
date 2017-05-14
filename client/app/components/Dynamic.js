@@ -29,7 +29,7 @@ export class Dynamic extends React.Component {
          let isShowSlotsAndControllers = this.state.showSlotsAndControllers;
          if(isShowSlots.showSlots) {
             return (
-                <Slots todos={this.props.todos} fetchTodo={this.props.fetchTodo}/>
+                <Slots todos={this.props.todos} addToList={this.props.addToList} fetchTodo={this.props.fetchTodo}/>
             );
          } 
          if(isShowSettings.showSettings) {

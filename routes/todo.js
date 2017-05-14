@@ -18,10 +18,19 @@ router.get('/', displayTodo);
 
 
 // find todo by id and change display property to true
-router.put('/addToList/:id', function(req, res, next) {
-    var Bodyid = req.body.id;
+router.post('/addToList/:id', function(req, res, next) {
     var id = req.params.id;
     Todo.findByIdAndUpdate(id, { $set: { display: true }}, {new: true}, function(err, doc) {
+        if(err) {
+            throw err;
+        }
+    doc.save();
+    });
+});
+
+router.post('/removeFromList/:id', function(req, res, next) {
+    var id = req.params.id;
+    Todo.findByIdAndUpdate(id, { $set: { display: false }}, {new: true}, function(err, doc) {
         if(err) {
             throw err;
         }
