@@ -49,7 +49,7 @@ export class Slots extends React.Component {
 
     onAddToList(id) {
         this.props.addToList(id);
-        this.props.fetchTodo();
+        // this.props.fetchTodo();
     }
 
 

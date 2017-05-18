@@ -1,5 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
+import axios from 'axios';
 
 import {Todos} from './components/Todos';
 import {Sidebar} from './components/Sidebar';
@@ -71,24 +72,39 @@ class App extends React.Component {
     //     xhr.send();
     // }
 
+
     ajax(method, url) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
-            xhr.onload = () => {
-                console.log('fuckkk');
-                return;
-            }
             xhr.onerror = reject;
             xhr.open(method, url);
             xhr.send();
             });
     }
 
+    // onRemoveFromList(id) {
+    //     this.ajax('POST', '/todo/removeFromList/' + id);
+    // }
+
+    // onAddToList(id) {
+    //     this.ajax('PUT', '/todo/addtoList/' + id);
+    // }
+
     onRemoveFromList(id) {
-       this.ajax("POST", '/todo/removeFromList/' + id).then(this.onFetchTodosFromDatabase());
+    //    this.ajax("POST", '/todo/removeFromList/' + id).then(this.onFetchTodosFromDatabase());
+        return axios.post('/todo/removeFromList/' + id)
+        .then(this.onFetchTodosFromDatabase())
+        .catch(function (error) {
+            throw error;
+        });
     }
     onAddToList(id) {
-        this.ajax("POST", '/todo/addToList/' + id);
+    //     //ajax request using axios
+        return axios.post('/todo/addtoList/' + id)
+        .then(this.onFetchTodosFromDatabase())
+        .catch(function (error) {
+            throw error;
+        });
     }
     
     
@@ -128,19 +144,30 @@ class App extends React.Component {
     //     xhr.send();
     // }
     
+    // onFetchTodosFromDatabase() {
+    //     console.log('on Fetch Todo from database');
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('GET', '/todo', true);
+    //     xhr.onload = function() {
+    //         let data = JSON.parse(xhr.responseText);
+    //         console.log('Fetch todo', data);
+    //         this.setState({
+    //             todos: data
+    //         });
+    //         console.log('end of set state');
+    //     }.bind(this);
+    //      xhr.send();
+    // }
+
     onFetchTodosFromDatabase() {
-        console.log('on Fetch Todo from database');
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/todo', true);
-        xhr.onload = function() {
-            let data = JSON.parse(xhr.responseText);
-            console.log('Fetch todo', data);
-            this.setState({
-                todos: data
-            });
-            console.log('end of set state');
-        }.bind(this);
-         xhr.send();
+        return axios.get('/todo')
+        .then(res => {
+        let data = res.data;
+        this.setState({ todos: data });
+        })
+        .catch(function (error) {
+            throw error;
+        });
     }
    
     render() {

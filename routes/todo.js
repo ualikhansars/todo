@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
 router.get('/', function(req, res, next) {
     Todo.find(function(err, doc) {
         if(err) throw err;
-        res.status(200).send(doc);
+        res.status(200).json(doc);
     });
 });
 
@@ -45,6 +45,7 @@ router.post('/addToList/:id',  function(req, res, next) {
         }
     doc.save();
     });
+    res.redirect('/');
 });
 
 router.post('/removeFromList/:id', function(req, res, next) {
@@ -55,6 +56,7 @@ router.post('/removeFromList/:id', function(req, res, next) {
         }
     doc.save();
     });
+    res.redirect('/');
 });
 
 /*
