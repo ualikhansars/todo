@@ -3,8 +3,9 @@ import React from 'react';
 export class SlotsForm extends React.Component {
     render() {
         return (
+            //onClick={this.props.submitForm}
             <div className="slots-form">
-                <form action="/todo" id="create_todo" method="post">
+                <form action="/todo" method="POST">
                     <div className="form-group row">
                         <label htmlFor="formGroupExampleInput" className="col-md-12">Title</label>
                         <input type="text" className="form-control col-md-12" id="todo_title" name="title" placeholder="Study" />
@@ -33,7 +34,7 @@ export class SlotsForm extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-md-6 offset-md-3">
-                            <button onClick={this.props.showSlotsForm} type="submit" className="btn btn-success">Create</button>
+                            <button type="submit" className="btn btn-success">Create</button>
                         </div>
                     </div>
                 </form>

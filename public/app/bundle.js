@@ -9606,6 +9606,11 @@ var Dynamic = exports.Dynamic = function (_React$Component) {
     }
 
     _createClass(Dynamic, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.props.fetchTodo();
+        }
+    }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             this.setState({
@@ -9875,7 +9880,7 @@ var Todos = exports.Todos = function (_React$Component) {
         // constructor(props) {
         //     super(props);
         //     this.state = {
-        //         todos: []
+        //         todos: this.props.todos
         //     }
         // }
 
@@ -9897,16 +9902,18 @@ var Todos = exports.Todos = function (_React$Component) {
         }
 
         // componentWillUpdate(nextProps, nextState) {
-        //     console.log('Component will update', nextProps, nextState);
+        //      this.props.fetchTodo();
         // }
 
         // shouldComponentUpdate(nextProps, nextState) {
-        //     console.log('Should component update', nextProps, nextState);
+        //     this.props.fetchTodo();
         //     return true;
         // }
 
         // componentWillReceiveProps(nextProps) {
-        //     console.log('Component will receive props', nextProps);
+        //     this.setState({
+        //         todos: nextProps
+        //     });
         // }
 
         // componentDidUpdate(prevProps, prevState) {
@@ -10198,11 +10205,37 @@ var Slots = exports.Slots = function (_React$Component) {
             });
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            //    this.onFetchTodosFromDatabase();
+        key: 'onSaveTodo',
+        value: function onSaveTodo() {
+            var xhr = new XMLHttpRequest();
+            if (xhr.readyState == 4) {
+                xhr.open('POST', '/todo', true);
+                console.log('save todo');
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send();
+            } else if (xhr.readyState == 1) {
+                console.log('access denied');
+            } else {
+                console.log('I don\'t know');
+            }
+        }
+    }, {
+        key: 'onSubmitForm',
+        value: function onSubmitForm() {
+            this.onShowSlotForm();
+            this.onSaveTodo();
+        }
+    }, {
+        key: 'onAddToList',
+        value: function onAddToList(id) {
+            this.props.addToList(id);
             this.props.fetchTodo();
         }
+
+        /*componentDidMount() {
+        //    this.onFetchTodosFromDatabase();
+            this.props.fetchTodo();
+        }*/
 
         // onFetchTodosFromDatabase() {
         //     let renderTodo = this.renderTodo;
@@ -10250,7 +10283,7 @@ var Slots = exports.Slots = function (_React$Component) {
                             )
                         )
                     ),
-                    _react2.default.createElement(_SlotsForm.SlotsForm, { showSlotsForm: this.onAddFormToDOM.bind(this) }),
+                    _react2.default.createElement(_SlotsForm.SlotsForm, { submitForm: this.onSubmitForm.bind(this) }),
                     _react2.default.createElement('div', { className: 'row dynamic-item' })
                 );
             } else {
@@ -10277,7 +10310,7 @@ var Slots = exports.Slots = function (_React$Component) {
                             'ul',
                             { className: 'todo-item' },
                             this.props.todos.map(function (todo, i) {
-                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.props.addToList, display: todo.display, title: todo.title, id: todo._id, key: i });
+                                return _react2.default.createElement(_Slot.Slot, { addToList: _this2.onAddToList.bind(_this2), display: todo.display, title: todo.title, id: todo._id, key: i });
                             })
                         )
                     )
@@ -10327,84 +10360,87 @@ var SlotsForm = exports.SlotsForm = function (_React$Component) {
     _createClass(SlotsForm, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "slots-form" },
+            return (
+                //onClick={this.props.submitForm}
                 _react2.default.createElement(
-                    "form",
-                    { action: "/todo", id: "create_todo", method: "post" },
+                    "div",
+                    { className: "slots-form" },
                     _react2.default.createElement(
-                        "div",
-                        { className: "form-group row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "formGroupExampleInput", className: "col-md-12" },
-                            "Title"
-                        ),
-                        _react2.default.createElement("input", { type: "text", className: "form-control col-md-12", id: "todo_title", name: "title", placeholder: "Study" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "form-group row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "todo_category", className: "col-md-12" },
-                            "Category"
-                        ),
-                        _react2.default.createElement("input", { type: "text", className: "form-control col-md-12", id: "todo-category", name: "category", placeholder: "Important" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "form-group row" },
-                        _react2.default.createElement(
-                            "label",
-                            { htmlFor: "formGroupExampleInput2", className: "col-md-12" },
-                            "Duration"
-                        ),
-                        _react2.default.createElement("input", { type: "number", className: "form-control col-md-12", id: "todo_duration", name: "duration", placeholder: "Minutes" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { className: "col-md-12" },
-                            "StartTime"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "form-group row" },
-                        _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "start_time_hours", name: "start_time_hours", placeholder: "Hours" }),
-                        ":",
-                        _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "start_time_minutes", name: "start_time_minutes", placeholder: "Minutes" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "row" },
-                        _react2.default.createElement(
-                            "label",
-                            { className: "col-md-12" },
-                            "FinishTime"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "form-group row" },
-                        _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "finish_time_hours", name: "finish_time_hours", placeholder: "Hours" }),
-                        ":",
-                        _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "finish_time_minutes", name: "finish_time_minutes", placeholder: "Minutes" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "row" },
+                        "form",
+                        { action: "/todo", method: "POST" },
                         _react2.default.createElement(
                             "div",
-                            { className: "col-md-6 offset-md-3" },
+                            { className: "form-group row" },
                             _react2.default.createElement(
-                                "button",
-                                { onClick: this.props.showSlotsForm, type: "submit", className: "btn btn-success" },
-                                "Create"
+                                "label",
+                                { htmlFor: "formGroupExampleInput", className: "col-md-12" },
+                                "Title"
+                            ),
+                            _react2.default.createElement("input", { type: "text", className: "form-control col-md-12", id: "todo_title", name: "title", placeholder: "Study" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "form-group row" },
+                            _react2.default.createElement(
+                                "label",
+                                { htmlFor: "todo_category", className: "col-md-12" },
+                                "Category"
+                            ),
+                            _react2.default.createElement("input", { type: "text", className: "form-control col-md-12", id: "todo-category", name: "category", placeholder: "Important" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "form-group row" },
+                            _react2.default.createElement(
+                                "label",
+                                { htmlFor: "formGroupExampleInput2", className: "col-md-12" },
+                                "Duration"
+                            ),
+                            _react2.default.createElement("input", { type: "number", className: "form-control col-md-12", id: "todo_duration", name: "duration", placeholder: "Minutes" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "row" },
+                            _react2.default.createElement(
+                                "label",
+                                { className: "col-md-12" },
+                                "StartTime"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "form-group row" },
+                            _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "start_time_hours", name: "start_time_hours", placeholder: "Hours" }),
+                            ":",
+                            _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "start_time_minutes", name: "start_time_minutes", placeholder: "Minutes" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "row" },
+                            _react2.default.createElement(
+                                "label",
+                                { className: "col-md-12" },
+                                "FinishTime"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "form-group row" },
+                            _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "finish_time_hours", name: "finish_time_hours", placeholder: "Hours" }),
+                            ":",
+                            _react2.default.createElement("input", { type: "number", className: "form-control col-sm-5", id: "finish_time_minutes", name: "finish_time_minutes", placeholder: "Minutes" })
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "row" },
+                            _react2.default.createElement(
+                                "div",
+                                { className: "col-md-6 offset-md-3" },
+                                _react2.default.createElement(
+                                    "button",
+                                    { type: "submit", className: "btn btn-success" },
+                                    "Create"
+                                )
                             )
                         )
                     )
@@ -10607,11 +10643,8 @@ var App = function (_React$Component) {
         //        xhr.open('POST', url , true);
         //     } else if(typeof XDomainRequest != 'undefined'){
         //         xhr = new XDomainRequest();
-        //         xhr.open('PUT', url);
-        //         xhr.onload = function() {
-        //          this.onFetchTodosFromDatabase();
-        //         }     
-        //          xhr.send();
+        //         xhr.open('POST', url);
+        //         xhr.send();
         //     } else {
         //         xhr = null;
         //     }
@@ -10620,18 +10653,14 @@ var App = function (_React$Component) {
         // onRemoveFromList(id) {
         //     let xhr = new XMLHttpRequest();
         //     let url = '/todo/removeFromList/' + id;
-        //     if("withCredentials"  in xhr) {
+        //     if("withCredentials" in xhr) {
         //        xhr.open('POST', url , true);
         //     } else if(typeof XDomainRequest != 'undefined'){
         //         xhr = new XDomainRequest();
-        //         xhr.open('PUT', url);
+        //         xhr.open('POST', url);
         //     } else {
         //         xhr = null;
-        //     }
-
-        //     xhr.onload = function() {
-        //          this.onFetchTodosFromDatabase();
-        //     }       
+        //     }    
         //     xhr.send();
         // }
 
@@ -10641,7 +10670,8 @@ var App = function (_React$Component) {
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 xhr.onload = function () {
-                    resolve(this.responseText);
+                    console.log('fuckkk');
+                    return;
                 };
                 xhr.onerror = reject;
                 xhr.open(method, url);
@@ -10651,58 +10681,63 @@ var App = function (_React$Component) {
     }, {
         key: 'onRemoveFromList',
         value: function onRemoveFromList(id) {
-            new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                var url = '/todo/removeFromList/' + id;
-                xhr.onerror = reject;
-                xhr.open('POST', url, true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                xhr.send();
-            }).then(this.onFetchTodosFromDatabase());
+            this.ajax("POST", '/todo/removeFromList/' + id).then(this.onFetchTodosFromDatabase());
         }
     }, {
         key: 'onAddToList',
         value: function onAddToList(id) {
-            new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
-                var url = '/todo/addtoList/' + id;
-                xhr.onerror = reject;
-                xhr.open('POST', url, true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                xhr.send();
-            }).then(this.onFetchTodosFromDatabase());
+            this.ajax("POST", '/todo/addToList/' + id);
         }
 
-        /*onRemoveFromList(id) {
-            let xhr = new XMLHttpRequest();
-            let url = '/todo/removeFromList/' + id;
-            xhr.open('POST', url , true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            this.onFetchTodosFromDatabase();
-            xhr.send();
-        }*/
+        // onAddToList(id) {
+        //     new Promise(function(resolve, reject) {
+        //          console.log('ADD');
+        //         let xhr = new XMLHttpRequest();
+        //         let url = '/todo/addtoList/' + id;
+        //         xhr.open('POST', url , true);
+        //         xhr.onerror = function() {
+        //             console.log(xhr.responseText);
+        //         }
+        //         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //         console.log(reject);
+        //         xhr.send();
+        //         }).then(this.onFetchTodosFromDatabase())
+        //     .catch(error => console.log(error));
+        // }
 
-        /*onAddToList(id) {
-           let xhr = new XMLHttpRequest();
-           let url = '/todo/addtoList/' + id;
-           xhr.open('POST', url , true);
-           xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-           xhr.send();
-        }*/
+        // onRemoveFromList(id) {
+        //     let xhr = new XMLHttpRequest();
+        //     let url = '/todo/removeFromList/' + id;
+        //     xhr.open('POST', url , true);
+        //     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     // this.onFetchTodosFromDatabase();
+        //     xhr.send();
+        // }
+
+        //  onAddToList(id) {
+        //     let xhr = new XMLHttpRequest();
+        //     let url = '/todo/addtoList/' + id;
+        //     xhr.open('POST', url , true);
+        //     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //     // xhr.onload = function() {
+        //     //     this.onFetchTodosFromDatabase();
+        //     // }.bind(this);
+        //     xhr.send();
+        // }
 
     }, {
         key: 'onFetchTodosFromDatabase',
         value: function onFetchTodosFromDatabase() {
+            console.log('on Fetch Todo from database');
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/todo', true);
-
             xhr.onload = function () {
                 var data = JSON.parse(xhr.responseText);
+                console.log('Fetch todo', data);
                 this.setState({
                     todos: data
                 });
+                console.log('end of set state');
             }.bind(this);
             xhr.send();
         }

@@ -13,6 +13,10 @@ export class Dynamic extends React.Component {
         };
     }
     
+     componentDidMount() {
+        this.props.fetchTodo();
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             showSlots: nextProps,

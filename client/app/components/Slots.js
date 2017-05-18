@@ -25,10 +25,38 @@ export class Slots extends React.Component {
         });
     }
 
-    componentDidMount() {
-    //    this.onFetchTodosFromDatabase();
+    onSaveTodo() {
+        let xhr = new XMLHttpRequest();
+        if(xhr.readyState == 4) {
+            xhr.open('POST', '/todo', true);
+            console.log('save todo');
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send();
+        }
+        else if(xhr.readyState == 1) {
+            console.log('access denied');
+        }
+        else {
+            console.log(`I don't know`);
+        }
+        
+    }
+
+    onSubmitForm() {
+        this.onShowSlotForm();
+        this.onSaveTodo();
+    }
+
+    onAddToList(id) {
+        this.props.addToList(id);
         this.props.fetchTodo();
     }
+
+
+    /*componentDidMount() {
+    //    this.onFetchTodosFromDatabase();
+        this.props.fetchTodo();
+    }*/
 
     // onFetchTodosFromDatabase() {
     //     let renderTodo = this.renderTodo;
@@ -63,7 +91,7 @@ export class Slots extends React.Component {
                     <button onClick={this.onShowSlotForm.bind(this)} className="btn btn-success">Create new</button>
                 </div>
                 </div>
-                <SlotsForm showSlotsForm={this.onAddFormToDOM.bind(this)}/>
+                <SlotsForm submitForm={this.onSubmitForm.bind(this)} />
                 <div className="row dynamic-item">
                 </div>
             </div>  
@@ -80,7 +108,7 @@ export class Slots extends React.Component {
             <div className="row dynamic-item">
                  <ul className="todo-item">
                     {this.props.todos.map((todo,i) => 
-                        <Slot addToList={this.props.addToList} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
+                        <Slot addToList={this.onAddToList.bind(this)} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
                     )}
                  </ul>
             </div>

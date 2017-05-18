@@ -5,7 +5,7 @@ export class Todos extends React.Component {
     // constructor(props) {
     //     super(props);
     //     this.state = {
-    //         todos: []
+    //         todos: this.props.todos
     //     }
     // }
 
@@ -26,16 +26,18 @@ export class Todos extends React.Component {
     }
 
     // componentWillUpdate(nextProps, nextState) {
-    //     console.log('Component will update', nextProps, nextState);
+    //      this.props.fetchTodo();
     // }
 
     // shouldComponentUpdate(nextProps, nextState) {
-    //     console.log('Should component update', nextProps, nextState);
+    //     this.props.fetchTodo();
     //     return true;
     // }
 
     // componentWillReceiveProps(nextProps) {
-    //     console.log('Component will receive props', nextProps);
+    //     this.setState({
+    //         todos: nextProps
+    //     });
     // }
 
     // componentDidUpdate(prevProps, prevState) {

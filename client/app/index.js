@@ -50,11 +50,8 @@ class App extends React.Component {
     //        xhr.open('POST', url , true);
     //     } else if(typeof XDomainRequest != 'undefined'){
     //         xhr = new XDomainRequest();
-    //         xhr.open('PUT', url);
-    //         xhr.onload = function() {
-    //          this.onFetchTodosFromDatabase();
-    //         }     
-    //          xhr.send();
+    //         xhr.open('POST', url);
+    //         xhr.send();
     //     } else {
     //         xhr = null;
     //     }
@@ -63,27 +60,24 @@ class App extends React.Component {
     // onRemoveFromList(id) {
     //     let xhr = new XMLHttpRequest();
     //     let url = '/todo/removeFromList/' + id;
-    //     if("withCredentials"  in xhr) {
+    //     if("withCredentials" in xhr) {
     //        xhr.open('POST', url , true);
     //     } else if(typeof XDomainRequest != 'undefined'){
     //         xhr = new XDomainRequest();
-    //         xhr.open('PUT', url);
+    //         xhr.open('POST', url);
     //     } else {
     //         xhr = null;
-    //     }
-
-    //     xhr.onload = function() {
-    //          this.onFetchTodosFromDatabase();
-    //     }       
+    //     }    
     //     xhr.send();
     // }
 
     ajax(method, url) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                resolve(this.responseText);
-            };
+            xhr.onload = () => {
+                console.log('fuckkk');
+                return;
+            }
             xhr.onerror = reject;
             xhr.open(method, url);
             xhr.send();
@@ -91,57 +85,62 @@ class App extends React.Component {
     }
 
     onRemoveFromList(id) {
-        new Promise(function(resolve, reject) {
-            let xhr = new XMLHttpRequest();
-            let url = '/todo/removeFromList/' + id;
-            xhr.onerror = reject;
-            xhr.open('POST', url , true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            
-            xhr.send();
-        }).then(this.onFetchTodosFromDatabase());
+       this.ajax("POST", '/todo/removeFromList/' + id).then(this.onFetchTodosFromDatabase());
     }
-
     onAddToList(id) {
-        new Promise(function(resolve, reject) {
-            let xhr = new XMLHttpRequest();
-            let url = '/todo/addtoList/' + id;
-            xhr.onerror = reject;
-            xhr.open('POST', url , true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            
-            xhr.send();
-        }).then(this.onFetchTodosFromDatabase());
+        this.ajax("POST", '/todo/addToList/' + id);
     }
+    
+    
+    // onAddToList(id) {
+    //     new Promise(function(resolve, reject) {
+    //          console.log('ADD');
+    //         let xhr = new XMLHttpRequest();
+    //         let url = '/todo/addtoList/' + id;
+    //         xhr.open('POST', url , true);
+    //         xhr.onerror = function() {
+    //             console.log(xhr.responseText);
+    //         }
+    //         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //         console.log(reject);
+    //         xhr.send();
+    //         }).then(this.onFetchTodosFromDatabase())
+    //     .catch(error => console.log(error));
+    // }
 
-    /*onRemoveFromList(id) {
-        let xhr = new XMLHttpRequest();
-        let url = '/todo/removeFromList/' + id;
-        xhr.open('POST', url , true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        this.onFetchTodosFromDatabase();
-        xhr.send();
-    }*/
+    // onRemoveFromList(id) {
+    //     let xhr = new XMLHttpRequest();
+    //     let url = '/todo/removeFromList/' + id;
+    //     xhr.open('POST', url , true);
+    //     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //     // this.onFetchTodosFromDatabase();
+    //     xhr.send();
+    // }
 
-     /*onAddToList(id) {
-        let xhr = new XMLHttpRequest();
-        let url = '/todo/addtoList/' + id;
-        xhr.open('POST', url , true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send();
-    }*/
+    //  onAddToList(id) {
+    //     let xhr = new XMLHttpRequest();
+    //     let url = '/todo/addtoList/' + id;
+    //     xhr.open('POST', url , true);
+    //     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //     // xhr.onload = function() {
+    //     //     this.onFetchTodosFromDatabase();
+    //     // }.bind(this);
+    //     xhr.send();
+    // }
     
     onFetchTodosFromDatabase() {
-        let xhr = new XMLHttpRequest();
+        console.log('on Fetch Todo from database');
+        var xhr = new XMLHttpRequest();
         xhr.open('GET', '/todo', true);
-
         xhr.onload = function() {
             let data = JSON.parse(xhr.responseText);
+            console.log('Fetch todo', data);
             this.setState({
                 todos: data
             });
+            console.log('end of set state');
         }.bind(this);
-        xhr.send();
+         xhr.send();
     }
    
     render() {

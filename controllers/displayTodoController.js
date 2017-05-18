@@ -7,6 +7,7 @@ module.exports.displayTodo = function(req, res, next) {
     Todo.find(function(err, doc) {
         if(err) throw err;
         //res.render('index', {todos: doc});
-        res.send(doc);
+        //res.send(doc);
+        res.json(doc);
     });
 }    
