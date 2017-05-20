@@ -11897,7 +11897,7 @@ var SlotsForm = exports.SlotsForm = function (_React$Component) {
                     { className: "slots-form" },
                     _react2.default.createElement(
                         "form",
-                        { action: "/todo", method: "POST" },
+                        { action: "/todo/addTodo", method: "POST" },
                         _react2.default.createElement(
                             "div",
                             { className: "form-group row" },

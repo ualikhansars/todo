@@ -47,6 +47,10 @@ var todoSchema = mongoose.Schema({
     display: {
         type: Boolean, 
         default: false
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserModel'
     }
 });
 

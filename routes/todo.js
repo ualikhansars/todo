@@ -14,6 +14,7 @@ router.post('/', function(req, res, next) {
         startTimeMinutes: req.body.start_time_minutes,
         finishTimeHours: req.body.finish_time_hours,
         finishTimeMinutes: req.body.finish_time_minutes,
+        username: req.params.username
     }
     // // validation
     req.checkBody('title', 'title is required').notEmpty();

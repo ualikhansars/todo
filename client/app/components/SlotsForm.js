@@ -5,7 +5,7 @@ export class SlotsForm extends React.Component {
         return (
             //onClick={this.props.submitForm}
             <div className="slots-form">
-                <form action="/todo" method="POST">
+                <form action="/todo/addTodo" method="POST">
                     <div className="form-group row">
                         <label htmlFor="formGroupExampleInput" className="col-md-12">Title</label>
                         <input type="text" className="form-control col-md-12" id="todo_title" name="title" placeholder="Study" />
