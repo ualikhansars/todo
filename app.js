@@ -10,8 +10,10 @@ const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
 const validator = require('express-validator');
 // let compiler = webpack(config);
-var passport = require(passport);
-var session = require(express-session);
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('express-flash-messages')
+
 
 
 const index = require('./routes/index');
@@ -19,7 +21,7 @@ const index = require('./routes/index');
 const todo = require('./routes/todo');
 
 mongoose.connect('mongodb://localhost/todo');
-
+require('./config/passport');
 const app = express();
 
 // view engine setup
@@ -31,14 +33,14 @@ app.set('view engine', '.hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressSession({secret: 'mySecretKey'}));
+app.use(session({secret: 'mySecretKey', resave: false, saveUninitialized: false}));
 app.use(validator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash())
 app.use('/', index);
 // app.use('/:username', users);
 app.use('/todo', todo);

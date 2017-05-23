@@ -50,7 +50,7 @@ var todoSchema = mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserModel'
+        ref: 'User'
     }
 });
 
