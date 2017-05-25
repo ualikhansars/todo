@@ -21,9 +21,12 @@ class App extends React.Component {
             fetchTodo: this.onFetchTodosFromDatabase.bind(this),
             addToList: this.onAddToList.bind(this),
             removeFromList: this.onRemoveFromList.bind(this),
-            todos: []
+            todos: [],
+            user: {},
+            fetchUser: this.onFetchUserFromDatabase.bind(this)
         }
     }
+
     onShowSlots(){
         this.disableOtherEvents();
         this.setState({
@@ -169,6 +172,17 @@ class App extends React.Component {
             throw error;
         });
     }
+
+    onFetchUserFromDatabase() {
+        return axios.get('/user')
+        .then(res => {
+        let data = res.data;
+        this.setState({ user: data });
+        })
+        .catch(function (error) {
+            throw error;
+        });
+    }
    
     render() {
         return (
@@ -184,7 +198,7 @@ class App extends React.Component {
                        <Todos  removeFromList={this.state.removeFromList} fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
                    </div>
                    <div className="col-md-5 col-sm-12">
-                        <Dynamic showSlots={this.state.showSlots} addToList={this.state.addToList} showSettings={this.state.showSettings} fetchTodo={this.state.fetchTodo} todos={this.state.todos}/>
+                        <Dynamic fetchUser={this.state.fetchUser} showSlots={this.state.showSlots} addToList={this.state.addToList} showSettings={this.state.showSettings} fetchTodo={this.state.fetchTodo} user={this.state.user} todos={this.state.todos}/>
                    </div>
                    <div className="col-md-3 col-sm-12">
                        <div className="row">

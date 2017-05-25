@@ -4,7 +4,7 @@ var csrf = require('csurf');
 var csrfProtection = csrf({ cookie: true });
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var User = require('../models/user_model');
 var displayTodoController = require('../controllers/displayTodoController');
 var displayTodo = displayTodoController.displayTodo;
 
@@ -24,7 +24,15 @@ var notAuthenticated = function (req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res, next) {
-    res.render('index', {});
+    res.render('index', {user: req.user});
+});
+
+router.get('/user', function(req, res, next) {
+    var id = req.user.id;
+    User.findById(id, function(err, doc) {
+      if(err) throw err;
+      res.json(doc);
+    });
 });
 
 /* Handle Login POST */

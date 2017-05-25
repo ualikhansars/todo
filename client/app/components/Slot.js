@@ -5,11 +5,11 @@ export class Slot extends React.Component {
         return(
             <div className="row">
                 <div className="col-md-4">
-                    <button onClick={() => {this.props.addToList(this.props.id)}} className="btn btn-success">Add to List</button>    
+                    <button onClick={() => {this.props.addToList(this.props.property.id)}} className="btn btn-success">Add to List</button>    
                 </div>
                 <div className="todo_desc col-md-8">
-                        <p>{this.props.title}</p>
-                        <p>Display: {this.props.display}</p>
+                        <p>{this.props.property.title}</p>
+                        <p>Category: {this.props.property.category}</p>
                         <p className="todo_id">{this.props.id}</p>
                 </div>
             </div>   

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var saveTodoController = require('../controllers/saveTodoController');
 var Todo = require('../models/todo_model');
-
+var User = require('../models/user_model');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
         startTimeMinutes: req.body.start_time_minutes,
         finishTimeHours: req.body.finish_time_hours,
         finishTimeMinutes: req.body.finish_time_minutes,
-        username: req.params.username
+        username: req.user._id
     }
     // // validation
     req.checkBody('title', 'title is required').notEmpty();
@@ -33,6 +33,13 @@ router.get('/', function(req, res, next) {
     Todo.find(function(err, doc) {
         if(err) throw err;
         res.status(200).json(doc);
+    });
+});
+
+router.get('/user', function(req, res, next) {
+    User.find(function(err, doc) {
+        if(err) throw err;
+        res.json(doc);
     });
 });
 

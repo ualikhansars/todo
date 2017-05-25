@@ -1,7 +1,7 @@
 import React from 'react';
 import {SlotsForm} from './SlotsForm';
 import {Slot} from './Slot';
-
+import {Todo} from './Todo';
 export class Slots extends React.Component {
     constructor() {
             super();
@@ -9,6 +9,17 @@ export class Slots extends React.Component {
                 showSlotForm: false,
                 // todos: []
             }
+    }
+
+    onFetchUserFromDatabase() {
+        return axios.get('/user')
+        .then(res => {
+        let data = res.data;
+        this.setState({ todos: data });
+        })
+        .catch(function (error) {
+            throw error;
+        });
     }
 
     onShowSlotForm() {
@@ -47,12 +58,6 @@ export class Slots extends React.Component {
         this.onSaveTodo();
     }
 
-    onAddToList(id) {
-        this.props.addToList(id);
-        // this.props.fetchTodo();
-    }
-
-
     /*componentDidMount() {
     //    this.onFetchTodosFromDatabase();
         this.props.fetchTodo();
@@ -82,6 +87,21 @@ export class Slots extends React.Component {
 
     render() {
         let isShowSlotForm = this.state.showSlotForm;
+        let user = this.props.user;
+        let todos = this.props.todos.map((todo, i) => {
+            let property = {
+                title: todo.title,
+                category: todo.category,
+                id: todo._id,
+            }
+            console.log('user', user);
+            console.log('todo', todo.username);
+            if(todo.username == user._id) {
+                return (
+                    <Slot addToList={this.props.addToList} key={i} property={property}/>
+                );
+            }
+        });
 
         if(isShowSlotForm) {
             return (
@@ -107,9 +127,8 @@ export class Slots extends React.Component {
 
             <div className="row dynamic-item">
                  <ul className="todo-item">
-                    {this.props.todos.map((todo,i) => 
-                        <Slot addToList={this.onAddToList.bind(this)} display={todo.display} title={todo.title} id={todo._id} key={i}/>   
-                    )}
+                    {user.username}
+                   {todos}
                  </ul>
             </div>
           </div>  

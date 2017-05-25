@@ -48,7 +48,7 @@ var todoSchema = mongoose.Schema({
         type: Boolean, 
         default: false
     },
-    user: {
+    username: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

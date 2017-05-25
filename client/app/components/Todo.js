@@ -10,6 +10,7 @@ export class Todo extends React.Component {
                         <button className="btn btn-warning">Edit</button>
                     </p>
                     <p>{this.props.property.title}</p>
+                    <p>Category: {this.props.property.category}</p>
                     <p>Duration: {this.props.property.duration} min</p>
                     <p>Display: {this.props.property.display}</p>
                     <span>Start Time: {this.props.property.startTimeHours}:{this.props.property.startTimeMinutes}</span>
